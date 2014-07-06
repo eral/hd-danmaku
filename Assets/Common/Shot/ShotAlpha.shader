@@ -60,7 +60,7 @@
 			fixed4 frag(v2f IN) : SV_Target {
 				fixed4 tex_color = tex2D(_MainTex, IN.texcoord);
 				fixed4 c;
-				c.rgb = fixed3(1) - ((fixed3(1) - tex_color.rgb) * (fixed3(1) - IN.color.rgb));
+				c.rgb = fixed3(1, 1, 1) - ((fixed3(1, 1, 1) - tex_color.rgb) * (fixed3(1, 1, 1) - IN.color.rgb));
 				c.a = tex_color.a * IN.color.a;
 				return c;
 			}
