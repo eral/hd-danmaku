@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 
 public class PlayerControl : MonoBehaviour {
-	public float		MoveSpeed = 200.0f;	//移動速度
-	public GameObject	ShotPrefab;			//ショット
-	[SmallInt]
-	public SmallInt		ShotTimer;				//ショット速度・カウンター
-	public float		ShotSpeed = 2000.0f;	//移動速度
-	public Vector3[]	ShotStartPosition = new Vector3[0];
+				public float		m_MoveSpeed			= 200.0f;	//移動速度
+				public GameObject	m_ShotPrefab;					//ショット
+	[SmallInt]	public SmallInt		m_ShotTimer;					//ショット速度・カウンター
+				public float		m_ShotSpeed			= 2000.0f;	//移動速度
+				public Vector3[]	m_ShotStartPosition	= new Vector3[0];
 	
 	/// <summary>
 	/// 生成
 	/// </summary>
 	void Awake() {
-		ShotTimer.SetValueRange(49, 0, 50);
+		m_ShotTimer.SetValueRange(49, 0, 50);
 	}
 	
 	/// <summary>
 	/// 初回更新前
 	/// </summary>
 	void Start() {
-		ShotStartPosition = new[]{new Vector3(  8.0f, 12.0f, 0.0f)
-								, new Vector3( -8.0f, 12.0f, 0.0f)
-								, new Vector3( 24.0f,  0.0f, 0.0f)
-								, new Vector3(-24.0f,  0.0f, 0.0f)
-								};
+		if (null == m_ShotPrefab) {
+			enabled = false;
+			return;
+		}
+		m_ShotStartPosition = new[]{new Vector3(  8.0f, 12.0f, 0.0f)
+									, new Vector3( -8.0f, 12.0f, 0.0f)
+									, new Vector3( 24.0f,  0.0f, 0.0f)
+									, new Vector3(-24.0f,  0.0f, 0.0f)
+									};
 	}
 	
 	/// <summary>
@@ -32,7 +35,7 @@ public class PlayerControl : MonoBehaviour {
 	/// </summary>
 	void Update() {
 		Move_();
-		Shot_();
+		ShotUpdate_();
 	}
 	
 	/// <summary>
@@ -43,10 +46,26 @@ public class PlayerControl : MonoBehaviour {
 		float y = Input.GetAxisRaw("Y");
 		if ((0.0f != x) || (0.0f != y)) {
 			Vector3 pos = transform.position;
-			transform.position = new Vector3(pos.x + x * MoveSpeed * Time.deltaTime
-											, pos.y + y * MoveSpeed * Time.deltaTime
+			transform.position = new Vector3(pos.x + x * m_MoveSpeed * Time.deltaTime
+											, pos.y + y * m_MoveSpeed * Time.deltaTime
 											, pos.z
 											);
+		}
+	}
+	
+	/// <summary>
+	/// ショット更新
+	/// </summary>
+	private void ShotUpdate_() {
+		if (Input.GetButton("Shot")) {
+			SmallInt shot_timer_next = m_ShotTimer + (int)(Time.deltaTime * 1000.0f);
+			if (shot_timer_next < m_ShotTimer) {
+				//発射
+				Shot_();
+			}
+			m_ShotTimer = shot_timer_next;
+		} else if (Input.GetButtonUp("Shot")) {
+			m_ShotTimer.value = m_ShotTimer.max - 1;
 		}
 	}
 	
@@ -54,21 +73,12 @@ public class PlayerControl : MonoBehaviour {
 	/// ショット
 	/// </summary>
 	private void Shot_() {
-		if (Input.GetButton("Shot")) {
-			SmallInt shot_timer_next = ShotTimer + (int)(Time.deltaTime * 1000.0f);
-			if (shot_timer_next < ShotTimer) {
-				//玉発射
-				foreach (var start_pos in ShotStartPosition) {
-					GameObject shot = (GameObject)Instantiate(ShotPrefab
-															, transform.position + start_pos
-															, Quaternion.identity
-															);
-					shot.rigidbody2D.velocity = new Vector2(0.0f, ShotSpeed);
-				}
-			}
-			ShotTimer = shot_timer_next;
-		} else if (Input.GetButtonUp("Shot")) {
-			ShotTimer.value = ShotTimer.max - 1;
+		foreach (var start_pos in m_ShotStartPosition) {
+			GameObject shot = (GameObject)Instantiate(m_ShotPrefab
+													, transform.position + start_pos
+													, Quaternion.identity
+													);
+			shot.rigidbody2D.velocity = new Vector2(0.0f, m_ShotSpeed);
 		}
 	}
 }
