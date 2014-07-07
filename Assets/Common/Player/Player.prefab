@@ -68,15 +68,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331f7571803125f43a2d305fca253a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 200
-  ShotPrefab: {fileID: 100000, guid: 064696119cb4fe544b7b38415ac6b500, type: 2}
-  ShotTimer:
+  m_MoveSpeed: 200
+  m_ShotPrefab: {fileID: 100000, guid: 064696119cb4fe544b7b38415ac6b500, type: 2}
+  m_ShotTimer:
     value_: 0
     min_: 0
     max_: 0
-  ShotSpeed: 2000
-  ShotStartPosition:
-  - {x: 0, y: 0, z: 0}
+  m_ShotSpeed: 2000
+  m_ShotStartPosition: []
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
