@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.06582642, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -41,10 +41,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CopySource: {fileID: 100000, guid: f1edd945c5d84a84cbf15b928d411fcb, type: 2}
   m_Speed: 100
-  m_ReloadSecond: .25
+  m_ShotCount: 4
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_WayCount: 1
   m_WayAngle: 0
+  m_RegularAngleLimit: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

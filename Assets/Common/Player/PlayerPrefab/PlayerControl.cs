@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 
 public class PlayerControl : MonoBehaviour {
-				public float		m_MoveSpeed			= 200.0f;	//移動速度
-				public GameObject	m_ShotPrefab;					//ショット
-	[SmallInt]	public SmallInt		m_ShotTimer;					//ショット速度・カウンター
-				public float		m_ShotSpeed			= 2000.0f;	//移動速度
-				public Vector3[]	m_ShotStartPosition	= new Vector3[0];
+	[PositiveNumber]	public float		m_MoveSpeed			= 200.0f;	//移動速度
+						public GameObject	m_ShotPrefab;					//ショット
+	[SmallInt]			public SmallInt		m_ShotTimer;					//ショット早度・カウンター
+	[PositiveNumber]	public float		m_ShotSpeed			= 2000.0f;	//ショット速度
+						public Vector3[]	m_ShotStartPosition	= new Vector3[0];
 	
 	/// <summary>
 	/// 生成
