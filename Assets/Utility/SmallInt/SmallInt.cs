@@ -2,9 +2,9 @@
 
 [System.Serializable]
 public struct SmallInt {
-	public int value_;	//<値
-	public int min_;	//<最小値(含む)
-	public int max_;	//<最大値(含まず)
+	private int value_;	//<値
+	private int min_;	//<最小値(含む)
+	private int max_;	//<最大値(含まず)
 	private uint uvalue_	{get{return (uint)value_;} set{value_ = (int)value;}}	//<uint型の値
 	private bool is_range_	{get{return min_<max_;}}								//falseの場合無制限
 	private uint range_		{get{return (uint)max_-(uint)min_;}}					//無制限の場合は0

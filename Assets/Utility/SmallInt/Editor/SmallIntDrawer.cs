@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Reflection;
 
 [CustomPropertyDrawer(typeof(SmallIntAttribute))]
-public class SmallIntDrawer : PropertyDrawer {
+public class SmallIntPropertyDrawer : PropertyDrawer {
 	
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	public SmallIntDrawer() {
+	public SmallIntPropertyDrawer() {
 	}
 	
 	/// <summary>
@@ -18,8 +18,7 @@ public class SmallIntDrawer : PropertyDrawer {
 	/// <param name="position">描画領域</param>
 	/// <param name="property">属性を付与した値</param>
 	/// <param name="label">ラベル</param>
-	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
-	{
+	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 //		SmallIntAttribute small_int_attribute = (SmallIntAttribute)attribute;
 		
 		if ("SmallInt" == property.type) {
