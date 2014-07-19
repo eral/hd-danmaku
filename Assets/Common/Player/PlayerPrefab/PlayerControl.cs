@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(PlayerScore))]
 public class PlayerControl : MonoBehaviour {
+						public PlayerScore	m_Score;						//スコア
 	[PositiveNumber]	public float		m_MoveSpeed			= 200.0f;	//移動速度
 						public GameObject	m_ShotPrefab;					//ショット
 	[SmallInt]			public SmallInt		m_ShotTimer;					//ショット早度・カウンター
@@ -22,6 +24,9 @@ public class PlayerControl : MonoBehaviour {
 		if (null == m_ShotPrefab) {
 			enabled = false;
 			return;
+		}
+		if (null == m_Score) {
+			m_Score = GetComponent<PlayerScore>();
 		}
 		m_ShotStartPosition = new[]{new Vector3(  8.0f, 12.0f, 0.0f)
 									, new Vector3( -8.0f, 12.0f, 0.0f)

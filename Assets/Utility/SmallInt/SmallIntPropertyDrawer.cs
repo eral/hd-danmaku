@@ -1,16 +1,10 @@
 ﻿using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
-using System.Collections.Generic;
-using System.Reflection;
 
 [CustomPropertyDrawer(typeof(SmallIntAttribute))]
 public class SmallIntPropertyDrawer : PropertyDrawer {
-	
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	public SmallIntPropertyDrawer() {
-	}
 	
 	/// <summary>
 	/// GUI描画
@@ -19,7 +13,7 @@ public class SmallIntPropertyDrawer : PropertyDrawer {
 	/// <param name="property">属性を付与した値</param>
 	/// <param name="label">ラベル</param>
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-//		SmallIntAttribute small_int_attribute = (SmallIntAttribute)attribute;
+		//var small_int_attribute = (SmallIntAttribute)attribute;
 		
 		if ("SmallInt" == property.type) {
 			var parent_object = property.serializedObject.targetObject;
@@ -50,7 +44,12 @@ public class SmallIntPropertyDrawer : PropertyDrawer {
 				EditorUtility.SetDirty(parent_object);
 			}
 		} else {
-			EditorGUI.PropertyField(position, property, label);
+			EditorGUI.LabelField(position, label, new GUIContent("This type has not supported."));
 		}
 	}
 }
+#endif //UNITY_EDITOR
+
+public class SmallIntAttribute : PropertyAttribute {
+}
+

@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
+  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   - 50: {fileID: 5000000}
   - 58: {fileID: 5800000}
@@ -68,14 +69,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331f7571803125f43a2d305fca253a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Score: {fileID: 11400002}
   m_MoveSpeed: 200
   m_ShotPrefab: {fileID: 100000, guid: 064696119cb4fe544b7b38415ac6b500, type: 2}
-  m_ShotTimer:
-    value_: 0
-    min_: 0
-    max_: 0
   m_ShotSpeed: 2000
   m_ShotStartPosition: []
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69666c21f6121c4d8148e2fe9e58455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graze: 0
+  m_ShotPower: 0
+  m_Bomb: 0
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
