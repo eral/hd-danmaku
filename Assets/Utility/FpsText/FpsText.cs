@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [RequireComponent(typeof(GUIText))]
-public class UpdateFpsText : MonoBehaviour {
+public class FpsText : MonoBehaviour {
 	public GUIText	m_Target;
 	public string	m_Format = "00.00fps";
 	public float[]	m_Times;

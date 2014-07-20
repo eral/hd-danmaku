@@ -9,11 +9,19 @@ public class PlayerControl : MonoBehaviour {
 	[SmallInt]			public SmallInt		m_ShotTimer;					//ショット早度・カウンター
 	[PositiveNumber]	public float		m_ShotSpeed			= 2000.0f;	//ショット速度
 						public Vector3[]	m_ShotStartPosition	= new Vector3[0];
+
+	private int	m_LayerFlagEnemy;
+	private int	m_LayerFlagEnemyShot;
+	private int	m_LayerFlagItem;
 	
 	/// <summary>
 	/// 生成
 	/// </summary>
 	void Awake() {
+		m_LayerFlagEnemy		= LayerMask.NameToLayer("Enemy");
+		m_LayerFlagEnemyShot	= LayerMask.NameToLayer("EnemyShot");
+		m_LayerFlagItem			= LayerMask.NameToLayer("Item");
+
 		m_ShotTimer.SetValueRange(49, 0, 50);
 	}
 	
@@ -41,6 +49,36 @@ public class PlayerControl : MonoBehaviour {
 	void Update() {
 		Move_();
 		ShotUpdate_();
+	}
+	
+	/// <summary>
+	/// トリガー衝突開始
+	/// </summary>
+	/// <param name="other">衝突対象</param>
+	void OnTriggerEnter2D(Collider2D other) {
+		var target_layer = other.gameObject.layer;
+		if (0 != (m_LayerFlagEnemyShot & target_layer)) {
+			//敵弾
+			Destroy(other.gameObject);
+		} else if (0 != (m_LayerFlagEnemy & target_layer)) {
+			//敵
+		} else if (0 != (m_LayerFlagItem & target_layer)) {
+			//アイテム
+			Destroy(other.gameObject);
+		}
+	}
+	
+	/// <summary>
+	/// 周辺トリガー衝突開始
+	/// </summary>
+	/// <param name="other">衝突対象</param>
+	public void OnTriggerEnter2DAround(Collider2D other) {
+		var target_layer = other.gameObject.layer;
+		if (0 != (m_LayerFlagEnemyShot & target_layer)) {
+			//敵弾
+			m_Score.m_Point += m_Score.m_Graze * 10; //得点加算
+			++m_Score.m_Graze;
+		}
 	}
 	
 	/// <summary>

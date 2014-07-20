@@ -31,10 +31,27 @@ public class UnsupportedLiteralPropertyDrawer : PropertyDrawer {
 		var current = (UnsupportedLiteralLong)parent_object.GetType().GetField(property.propertyPath).GetValue(parent_object);
 		
 		EditorGUIUtility.LookLikeControls();
-		EditorGUI.BeginChangeCheck();
-		var value = (long)EditorGUI.IntField(position, label, (int)current.value);
-		if (EditorGUI.EndChangeCheck()) {
-			current.value = value;
+		var is_update = false;
+		var threshold = int.MaxValue >> 4;
+		if ((-threshold <= current.value) && (current.value <= threshold)) {
+			var int_value = (int)current.value;
+			EditorGUI.BeginChangeCheck();
+			var value = (long)EditorGUI.IntField(position, label, int_value);
+			if (EditorGUI.EndChangeCheck()) {
+				current.value = value;
+				is_update = true;
+			}
+		} else {
+			var str_value = current.value.ToString();
+			EditorGUI.BeginChangeCheck();
+			str_value = EditorGUI.TextField(position, label, str_value);
+			long value;
+			if (EditorGUI.EndChangeCheck() && long.TryParse(str_value, out value)) {
+				current.value = value;
+				is_update = true;
+			}
+		}
+		if (is_update) {
 			parent_object.GetType().GetField(property.propertyPath).SetValue(parent_object, current);
 			EditorUtility.SetDirty(parent_object);
 		}

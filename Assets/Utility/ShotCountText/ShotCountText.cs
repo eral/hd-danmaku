@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [RequireComponent(typeof(GUIText))]
-public class ShotCount : MonoBehaviour {
+public class ShotCountText : MonoBehaviour {
 	public GUIText		m_Target;
 	public LayerMask	m_LayerTarget;
 	public string		m_Format = "###0";
