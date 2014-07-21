@@ -1,10 +1,4 @@
-﻿/*
- *	(C) 2014 ERAL
- *	Distributed under the Boost Software License, Version 1.0.
- *	(See copy at http://www.boost.org/LICENSE_1_0.txt)
- */
-
-using UnityEngine;
+﻿using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
