@@ -1,4 +1,4 @@
-hd-danmaku
+HD弾幕
 ==========
 
-HD解像度の弾幕系2D-STG
+[公式ページ](http://eral.github.io/hd-danmaku)
