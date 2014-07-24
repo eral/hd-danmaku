@@ -3,7 +3,6 @@
 		Tiling ("Tiling", Vector) = (1, 1, 1, 0)
 		LightColor ("LightColor", Color) = (1,1,1,1)
 		DarkColor ("DarkColor", Color) = (0,0,0,1)
-		PerlinNoiseSeed ("PerlinNoiseSeed", 2D) = "white" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Background" }
@@ -52,7 +51,8 @@
 			}
 
 			fixed4 frag(v2f IN) : SV_Target {
-				float noise_value = PerlinNoise3d(float3(IN.texcoord.x, IN.texcoord.y, _Time.y * Tiling.z));
+				float noise_value = PerlinNoise2dt(float2(IN.texcoord.x, IN.texcoord.y), _Time.y * Tiling.z);
+//				float noise_value = PerlinNoise3d(float3(IN.texcoord.x, IN.texcoord.y, _Time.y * Tiling.z));
 				fixed4 c = (LightColor - DarkColor) * fixed4(noise_value, noise_value, noise_value, noise_value) + DarkColor;
 				return c;
 			}

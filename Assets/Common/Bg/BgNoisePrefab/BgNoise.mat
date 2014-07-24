@@ -28,21 +28,21 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _Tiling
-        second: {r: 8, g: 72, b: 1, a: 0}
-      data:
-        first:
-          name: _DarkColor
-        second: {r: .192156866, g: .301960796, b: .474509805, a: 1}
-      data:
-        first:
           name: Tiling
         second: {r: 8, g: 72, b: .5, a: 0}
       data:
         first:
           name: LightColor
-        second: {r: .139165208, g: .273770869, b: .485294104, a: 1}
+        second: {r: .654411793, g: .654411793, b: 1, a: 1}
       data:
         first:
           name: DarkColor
+        second: {r: .345588207, g: .377180398, b: 1, a: 1}
+      data:
+        first:
+          name: _Tiling
+        second: {r: 8, g: 72, b: 1, a: 0}
+      data:
+        first:
+          name: _DarkColor
         second: {r: .192156866, g: .301960796, b: .474509805, a: 1}
