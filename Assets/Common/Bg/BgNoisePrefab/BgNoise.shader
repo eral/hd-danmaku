@@ -23,7 +23,7 @@
 			#pragma fragment frag
 			#pragma multi_compile DUMMY PIXELSNAP_ON
 			#include "UnityCG.cginc"
-			#include "./PerlinNoise.cginc"
+			#include "./PerlinNoiseFast.cginc"
 			
 			struct appdata_t {
 				float4 vertex	: POSITION;
@@ -51,9 +51,9 @@
 			}
 
 			fixed4 frag(v2f IN) : SV_Target {
-				float noise_value = PerlinNoise2dt(float2(IN.texcoord.x, IN.texcoord.y), _Time.y * Tiling.z);
-//				float noise_value = PerlinNoise3d(float3(IN.texcoord.x, IN.texcoord.y, _Time.y * Tiling.z));
-				fixed4 c = (LightColor - DarkColor) * fixed4(noise_value, noise_value, noise_value, noise_value) + DarkColor;
+				float noise_value = 0.0;
+				noise_value = PerlinNoise2dt(float2(IN.texcoord.x, IN.texcoord.y), _Time.y * Tiling.z);
+				fixed4 c = lerp(DarkColor, LightColor, noise_value);
 				return c;
 			}
 		ENDCG
