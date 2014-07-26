@@ -11,13 +11,18 @@ public class EnemyShotEmitter : MonoBehaviour {
 	[Range(0.0f, 360.0f)]	public float		m_WayAngle			= 0.0f;			//扇角度
 							public bool			m_RegularAngleLimit	= true;			//正多角形角度制限(true:なら360で全方位弾に為る)
 	
-	private float reload_timer = 0.0f;
+	private float m_ReloadTimer = 0.0f;
+	private Transform m_EnemyShotTrash = null;
 	
 	/// <summary>
 	/// 初回更新前
 	/// </summary>
 	void Start() {
-		reload_timer = 0.0f;
+		m_ReloadTimer = 0.0f;
+		var enemy_shot_trash = GameObject.FindGameObjectWithTag("EnemyShotTrash");
+		if (enemy_shot_trash) {
+			m_EnemyShotTrash = enemy_shot_trash.transform;
+		}
 	}
 	
 	/// <summary>
@@ -36,17 +41,17 @@ public class EnemyShotEmitter : MonoBehaviour {
 	/// </summary>
 	private void ShotUpdate_() {
 		if (0 < m_ShotCount) {
-			reload_timer += Time.deltaTime;
+			m_ReloadTimer += Time.deltaTime;
 
 			var reload_second = 1.0f / m_ShotCount;
-			if (reload_second <= reload_timer) {
+			if (reload_second <= m_ReloadTimer) {
 				//発射
 				if (m_WayCount < 2) {
 					OneShot_();
 				} else {
 					WayShot_();
 				}
-				reload_timer = reload_timer % reload_second;
+				m_ReloadTimer = m_ReloadTimer % reload_second;
 			}
 		}
 	}
@@ -85,16 +90,47 @@ public class EnemyShotEmitter : MonoBehaviour {
 	/// </summary>
 	/// <param name="rotation">方向(Quaternion.identityが上)</param>
 	private void Shot_(Quaternion rotation) {
-		GameObject shot = (GameObject)Instantiate(m_CopySource
-												, transform.position
-												, rotation
-												);
+		var is_recycle = (m_EnemyShotTrash && (0 < m_EnemyShotTrash.childCount));
+			
+		GameObject shot = CreateShot_(transform.position, rotation);
 		var speed = rotation * (new Vector2(0.0f, m_ShotSpeed));
 		shot.rigidbody2D.velocity = speed;
 		
 		var sprite_renderer = shot.GetComponent<SpriteRenderer>();
 		if (null != sprite_renderer) {
 			sprite_renderer.color = m_Color;
+			if (is_recycle) {
+				sprite_renderer.color = Color.Lerp(m_Color, Color.gray, 0.666f);
+			}
 		}
+	}
+	
+	/// <summary>
+	/// ショット構築
+	/// </summary>
+	/// <returns>ショット</returns>
+	/// <param name="position">位置</param>
+	/// <param name="rotation">方向(Quaternion.identityが上)</param>
+	private GameObject CreateShot_(Vector3 position, Quaternion rotation) {
+		GameObject result = null;
+		if (m_EnemyShotTrash && (0 < m_EnemyShotTrash.childCount)) {
+			//ゴミ箱に有れば
+			//それを使う
+			var shot = m_EnemyShotTrash.GetChild(0);
+			shot.transform.parent = null;
+			shot.transform.position = position;
+			shot.transform.rotation = rotation;
+			result = shot.gameObject;
+			result.SetActive(true);
+		}
+		if (!result) {
+			//まだ構築出来ていなければ
+			//新規にインスタンスを作成
+			result = (GameObject)Instantiate(m_CopySource
+											, position
+											, rotation
+											);
+		}
+		return result;
 	}
 }

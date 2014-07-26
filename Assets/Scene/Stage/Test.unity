@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &102221961
 Transform:
   m_ObjectHideFlags: 0
@@ -313,9 +313,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GameObjectList:
-  - {fileID: 102221960}
   - {fileID: 205611162}
-  m_Format: BgType [{0}]
+  - {fileID: 102221960}
+  m_Format: 'BgType: {0}'
+--- !u!1 &190090629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 190090631}
+  - 114: {fileID: 190090630}
+  m_Layer: 0
+  m_Name: EnemyShotTrashChangeUi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &190090630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 190090629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c97a06e2d10ea40833695bd6456b85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Format: 'Recycle: {0}'
+--- !u!4 &190090631
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 190090629}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
 --- !u!1 &205611162
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &205611163
 Transform:
   m_ObjectHideFlags: 0
@@ -388,7 +428,7 @@ GUIText:
   m_Text: 0<size=10>shots</size>
   m_Anchor: 8
   m_Alignment: 0
-  m_PixelOffset: {x: 0, y: 18}
+  m_PixelOffset: {x: -9, y: 18}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 12800000, guid: 8868e0467116e13409b1e102bf43bef1, type: 3}
@@ -412,6 +452,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!1 &328045753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 328045754}
+  m_Layer: 0
+  m_Name: EnemyShotTrash
+  m_TagString: EnemyShotTrash
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &328045754
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 328045753}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
 --- !u!1 &347600632
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,7 +724,7 @@ GUIText:
   m_Text: 0<size=10>points</size>
   m_Anchor: 8
   m_Alignment: 0
-  m_PixelOffset: {x: 0, y: 54}
+  m_PixelOffset: {x: -5, y: 72}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 12800000, guid: 8868e0467116e13409b1e102bf43bef1, type: 3}
@@ -724,7 +791,7 @@ GUIText:
   m_Text: 00.00<size=10>fps</size>
   m_Anchor: 8
   m_Alignment: 0
-  m_PixelOffset: {x: 0, y: 0}
+  m_PixelOffset: {x: -21, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 12800000, guid: 8868e0467116e13409b1e102bf43bef1, type: 3}
@@ -904,7 +971,7 @@ GUIText:
   m_Text: 0<size=10>graze</size>
   m_Anchor: 8
   m_Alignment: 0
-  m_PixelOffset: {x: 0, y: 36}
+  m_PixelOffset: {x: -7.0999999, y: 54}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 12800000, guid: 8868e0467116e13409b1e102bf43bef1, type: 3}
@@ -1484,6 +1551,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 102221961}
   m_RootOrder: 0
+--- !u!1 &1921559487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1921559490}
+  - 132: {fileID: 1921559489}
+  - 114: {fileID: 1921559488}
+  m_Layer: 0
+  m_Name: EnemyShotTrashText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1921559488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1921559487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af02434a73726be42849aad066ae8f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 0}
+  m_LayerTarget:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Format: '{0: ###0}<size=10>trashes</size>'
+--- !u!132 &1921559489
+GUIText:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1921559487}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: 0<size=10>trashes</size>
+  m_Anchor: 8
+  m_Alignment: 0
+  m_PixelOffset: {x: 0, y: 36}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 12800000, guid: 8868e0467116e13409b1e102bf43bef1, type: 3}
+  m_Material: {fileID: 0}
+  m_FontSize: 18
+  m_FontStyle: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_PixelCorrect: 1
+  m_RichText: 1
+--- !u!4 &1921559490
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1921559487}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .99000001, y: .0299999993, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
 --- !u!1001 &2134447514
 Prefab:
   m_ObjectHideFlags: 0

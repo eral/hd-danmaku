@@ -59,12 +59,14 @@ public class PlayerControl : MonoBehaviour {
 		var target_layer = other.gameObject.layer;
 		if (0 != (m_LayerFlagEnemyShot & target_layer)) {
 			//敵弾
-			Destroy(other.gameObject);
+			other.SendMessage("OnBecameInvisible");
+			//Destroy(other.gameObject);
 		} else if (0 != (m_LayerFlagEnemy & target_layer)) {
 			//敵
 		} else if (0 != (m_LayerFlagItem & target_layer)) {
 			//アイテム
-			Destroy(other.gameObject);
+			other.SendMessage("OnBecameInvisible");
+			//Destroy(other.gameObject);
 		}
 	}
 	
