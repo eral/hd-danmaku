@@ -5,7 +5,7 @@ using System.Linq;
 [RequireComponent(typeof(GUIText))]
 public class FpsText : MonoBehaviour {
 	public GUIText	m_Target;
-	public string	m_Format = "00.00fps";
+	public string	m_Format = "{0: 00.00}<size=10>fps</size>";
 	public float[]	m_Times;
 	public int		m_Current;
 
@@ -33,6 +33,6 @@ public class FpsText : MonoBehaviour {
 		if (m_Times.Length <= m_Current) {
 			m_Current = 0;
 		}
-		m_Target.text = ((float)m_Times.Length / m_Times.Sum()).ToString(m_Format);
+		m_Target.text = string.Format(m_Format, (float)m_Times.Length / m_Times.Sum());
 	}
 }

@@ -4,7 +4,7 @@
 public class ScorePointText : MonoBehaviour {
 	public GUIText		m_Target;
 	public PlayerScore	m_PlayerScore;
-	public string		m_Format = "#########0points";
+	public string		m_Format = "{0: #########0}<size=10>points</size>";
 	
 	/// <summary>
 	/// 初回更新前
@@ -28,6 +28,6 @@ public class ScorePointText : MonoBehaviour {
 	/// 更新
 	/// </summary>
 	void Update () {
-		m_Target.text = m_PlayerScore.m_Point.value.ToString(m_Format);
+		m_Target.text = string.Format(m_Format, m_PlayerScore.m_Point.value);
 	}
 }

@@ -6,7 +6,7 @@ using System.Linq;
 public class ShotCountText : MonoBehaviour {
 	public GUIText		m_Target;
 	public LayerMask	m_LayerTarget;
-	public string		m_Format = "###0";
+	public string		m_Format = "{0: ###0}<size=10>shots</size>";
 	
 	/// <summary>
 	/// 初回更新前
@@ -22,6 +22,6 @@ public class ShotCountText : MonoBehaviour {
 	/// </summary>
 	void Update () {
 		var count = FindObjectsOfType<GameObject>().Where(x=>0!=(~m_LayerTarget & x.layer)).Count();
-		m_Target.text = count.ToString(m_Format);
+		m_Target.text = string.Format(m_Format, count);
 	}
 }

@@ -376,7 +376,7 @@ MonoBehaviour:
   m_LayerTarget:
     serializedVersion: 2
     m_Bits: 2560
-  m_Format: '###0<size=8>shots</size>'
+  m_Format: '{0: ###0}<size=10>shots</size>'
 --- !u!132 &243685370
 GUIText:
   m_ObjectHideFlags: 0
@@ -385,7 +385,7 @@ GUIText:
   m_GameObject: {fileID: 243685368}
   m_Enabled: 1
   serializedVersion: 3
-  m_Text: 0<size=8>shots</size>
+  m_Text: 0<size=10>shots</size>
   m_Anchor: 8
   m_Alignment: 0
   m_PixelOffset: {x: 0, y: 18}
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 496491988}
   m_PlayerScore: {fileID: 123009339}
-  m_Format: '#########0<size=8>points</size>'
+  m_Format: '{0: #########0}<size=10>points</size>'
 --- !u!132 &496491988
 GUIText:
   m_ObjectHideFlags: 0
@@ -654,7 +654,7 @@ GUIText:
   m_GameObject: {fileID: 496491986}
   m_Enabled: 1
   serializedVersion: 3
-  m_Text: 0<size=8>points</size>
+  m_Text: 0<size=10>points</size>
   m_Anchor: 8
   m_Alignment: 0
   m_PixelOffset: {x: 0, y: 54}
@@ -710,7 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target: {fileID: 601819159}
-  m_Format: 00.00<size=8>fps</size>
+  m_Format: '{0: 00.00}<size=10>fps</size>'
   m_Times: []
   m_Current: 0
 --- !u!132 &601819159
@@ -721,7 +721,7 @@ GUIText:
   m_GameObject: {fileID: 601819157}
   m_Enabled: 1
   serializedVersion: 3
-  m_Text: 00.00<size=8>fps</size>
+  m_Text: 00.00<size=10>fps</size>
   m_Anchor: 8
   m_Alignment: 0
   m_PixelOffset: {x: 0, y: 0}
@@ -892,7 +892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 864654862}
   m_PlayerScore: {fileID: 123009339}
-  m_Format: '####0<size=8>graze</size>'
+  m_Format: '{0: #########0}<size=10>graze</size>'
 --- !u!132 &864654862
 GUIText:
   m_ObjectHideFlags: 0
@@ -901,7 +901,7 @@ GUIText:
   m_GameObject: {fileID: 864654859}
   m_Enabled: 1
   serializedVersion: 3
-  m_Text: 0<size=8>graze</size>
+  m_Text: 0<size=10>graze</size>
   m_Anchor: 8
   m_Alignment: 0
   m_PixelOffset: {x: 0, y: 36}
