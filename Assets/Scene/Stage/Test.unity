@@ -134,7 +134,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 102221961}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Noise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 173301371}
-  m_Layer: 0
+  - 114: {fileID: 173301372}
+  m_Layer: 13
   m_Name: Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,6 +301,21 @@ Transform:
   - {fileID: 205611163}
   m_Father: {fileID: 0}
   m_RootOrder: 10
+--- !u!114 &173301372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 173301370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b374e984136f63149b7349d8610c0a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GameObjectList:
+  - {fileID: 102221960}
+  - {fileID: 205611162}
+  m_Format: BgType [{0}]
 --- !u!1 &205611162
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,13 +324,13 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 205611163}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Solid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &205611163
 Transform:
   m_ObjectHideFlags: 0
@@ -412,7 +428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &347600633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,9 +484,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 407054714}
   - 20: {fileID: 407054715}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bg Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -496,7 +512,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -580,7 +596,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_Color.r
@@ -928,7 +944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &878639024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,7 +1007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1131249504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,7 +1186,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_ShotSpeed
@@ -1326,7 +1342,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_Color.r
@@ -1361,7 +1377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1844592551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1417,9 +1433,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 1884041691}
   - 20: {fileID: 1884041690}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bg Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1529,7 +1545,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
       propertyPath: m_Color.r
