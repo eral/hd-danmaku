@@ -1,3 +1,4 @@
+#Unity
 /Library
 /Temp
 /*.csproj
@@ -5,3 +6,12 @@
 /*.sln
 /*.unityproj
 /*.userprefs
+
+#Visual Studio Tools for Unity
+/obj
+/*.suo
+/*.sln.DotSettings
+
+#Mac
+.DS_Store
+
