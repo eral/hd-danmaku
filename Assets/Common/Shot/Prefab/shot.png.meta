@@ -1,6 +1,26 @@
 fileFormatVersion: 2
 guid: d2e5ff17ffc44854592b4ff6d9f771be
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: ShotCircle3
+    21300002: ShotCircle5
+    21300004: ShotCircle7
+    21300006: ShotCircle9
+    21300008: ShotCircle11
+    21300010: ShotCircle11w
+    21300012: ShotCircle13
+    21300014: ShotCircle13w
+    21300016: ShotCircle15
+    21300018: ShotCircle15w
+    21300020: ShotRifle7x21
+    21300022: ShotEllipsean6x11
+    21300024: ShotEllipsean7x13
+    21300026: ShotEllipsean8x15
+    21300028: ShotEllipsean7x15
+    21300030: ItemShotPower
+    21300032: ItemBomb
+    21300034: ItemPointLarge
+    21300036: ItemPointSmall
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

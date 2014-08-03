@@ -91,11 +91,25 @@ public class EnemyShotEmitter : MonoBehaviour {
 	/// <param name="rotation">方向(Quaternion.identityが上)</param>
 	private void Shot_(Quaternion rotation) {
 		var is_recycle = (m_EnemyShotTrash && (0 < m_EnemyShotTrash.childCount));
-			
+
 		GameObject shot = CreateShot_(transform.position, rotation);
 		var speed = rotation * (new Vector2(0.0f, m_ShotSpeed));
-		shot.rigidbody2D.velocity = speed;
-		
+		if (null != shot.rigidbody2D) {
+			shot.rigidbody2D.velocity = speed;
+		}
+		{
+			var move_transform = shot.GetComponent<MoveTransform>();
+			if (move_transform) {
+				move_transform.m_PositionSpeed = speed;
+			}
+		}
+		{
+			var move_position = shot.GetComponent<MovePosition>();
+			if (move_position) {
+				move_position.m_PositionSpeed = speed;
+			}
+		}
+
 		var sprite_renderer = shot.GetComponent<SpriteRenderer>();
 		if (null != sprite_renderer) {
 			sprite_renderer.color = m_Color;
