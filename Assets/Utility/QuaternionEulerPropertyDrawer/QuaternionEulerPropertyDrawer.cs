@@ -1,7 +1,7 @@
-﻿/*
- *	(C) 2014 ERAL
- *	Distributed under the Boost Software License, Version 1.0.
- *	(See copy at http://www.boost.org/LICENSE_1_0.txt)
+/*
+ * (C) 2014 ERAL
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
 using UnityEngine;
@@ -12,12 +12,6 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(QuaternionEulerAttribute))]
 public class QuaternionEulerPropertyDrawer : PropertyDrawer {
 	
-	/// <summary>
-	/// GUI描画
-	/// </summary>
-	/// <param name="position">描画領域</param>
-	/// <param name="property">属性を付与した値</param>
-	/// <param name="label">ラベル</param>
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 		var quaternion_euler_attribute = (QuaternionEulerAttribute)attribute;
 		
@@ -39,9 +33,9 @@ public class QuaternionEulerPropertyDrawer : PropertyDrawer {
 		}
 	}
 }
-#endif //UNITY_EDITOR
+#endif
 
 public class QuaternionEulerAttribute : PropertyAttribute {
-	public Vector3		value = Vector3.one; //Quaternion.identityでは無い値
+	public Vector3		value = Vector3.one;
 	public Quaternion	last = Quaternion.identity;
 }
