@@ -11,22 +11,22 @@ using UnityEditor;
 
 [CustomPropertyDrawer(typeof(QuaternionEulerAttribute))]
 public class QuaternionEulerPropertyDrawer : PropertyDrawer {
-	
+	private Vector3		value	= Vector3.one;
+	private Quaternion	last	= Quaternion.identity;
+
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-		var quaternion_euler_attribute = (QuaternionEulerAttribute)attribute;
-		
 		if (SerializedPropertyType.Quaternion == property.propertyType) {
 			EditorGUIUtility.LookLikeControls();
-			var is_update = (!quaternion_euler_attribute.last.Equals(property.quaternionValue));
-			is_update = is_update || (Quaternion.Euler(quaternion_euler_attribute.value) != quaternion_euler_attribute.last);
+			var is_update = (!last.Equals(property.quaternionValue));
+			is_update = is_update || (Quaternion.Euler(value) != last);
 			if (is_update) {
-				quaternion_euler_attribute.value = property.quaternionValue.eulerAngles;
-				quaternion_euler_attribute.last = Quaternion.Euler(quaternion_euler_attribute.value);
+				value = property.quaternionValue.eulerAngles;
+				last = Quaternion.Euler(value);
 			}
 			EditorGUI.BeginChangeCheck();
-			quaternion_euler_attribute.value = EditorGUI.Vector3Field(position, label, quaternion_euler_attribute.value);
+			value = EditorGUI.Vector3Field(position, label, value);
 			if (EditorGUI.EndChangeCheck()) {
-				quaternion_euler_attribute.last = property.quaternionValue = Quaternion.Euler(quaternion_euler_attribute.value);
+				last = property.quaternionValue = Quaternion.Euler(value);
 			}
 		} else {
 			EditorGUI.LabelField(position, label, new GUIContent("This type has not supported."));
@@ -36,6 +36,4 @@ public class QuaternionEulerPropertyDrawer : PropertyDrawer {
 #endif
 
 public class QuaternionEulerAttribute : PropertyAttribute {
-	public Vector3		value = Vector3.one;
-	public Quaternion	last = Quaternion.identity;
 }
