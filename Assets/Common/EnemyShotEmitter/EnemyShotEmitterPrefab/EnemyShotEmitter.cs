@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class EnemyShotEmitter : MonoBehaviour {
-							public GameObject	m_CopySource;						//コピー元オブジェクト
+							public Sprite		m_CopySource;						//コピー元オブジェクト
 	[PositiveNumber]		public float		m_ShotSpeed			= 100.0f;		//発射速度(px/秒)
 	[Range(0.0f, 180.0f)]	public float		m_ShotCount			= 4.0f;			//発射数(発/秒)
 							public Color		m_Color				= Color.black;	//色
@@ -12,17 +12,12 @@ public class EnemyShotEmitter : MonoBehaviour {
 							public bool			m_RegularAngleLimit	= true;			//正多角形角度制限(true:なら360で全方位弾に為る)
 	
 	private float m_ReloadTimer = 0.0f;
-	private Transform m_EnemyShotTrash = null;
 	
 	/// <summary>
 	/// 初回更新前
 	/// </summary>
 	void Start() {
 		m_ReloadTimer = 0.0f;
-		var enemy_shot_trash = GameObject.FindGameObjectWithTag("EnemyShotTrash");
-		if (enemy_shot_trash) {
-			m_EnemyShotTrash = enemy_shot_trash.transform;
-		}
 	}
 	
 	/// <summary>
@@ -90,33 +85,8 @@ public class EnemyShotEmitter : MonoBehaviour {
 	/// </summary>
 	/// <param name="rotation">方向(Quaternion.identityが上)</param>
 	private void Shot_(Quaternion rotation) {
-		var is_recycle = (m_EnemyShotTrash && (0 < m_EnemyShotTrash.childCount));
-
-		GameObject shot = CreateShot_(transform.position, rotation);
-		var speed = rotation * (new Vector2(0.0f, m_ShotSpeed));
-		if (null != shot.rigidbody2D) {
-			shot.rigidbody2D.velocity = speed;
-		}
-		{
-			var move_transform = shot.GetComponent<MoveTransform>();
-			if (move_transform) {
-				move_transform.m_PositionSpeed = speed;
-			}
-		}
-		{
-			var move_position = shot.GetComponent<MovePosition>();
-			if (move_position) {
-				move_position.m_PositionSpeed = speed;
-			}
-		}
-
-		var sprite_renderer = shot.GetComponent<SpriteRenderer>();
-		if (null != sprite_renderer) {
-			sprite_renderer.color = m_Color;
-			if (is_recycle) {
-				sprite_renderer.color = Color.Lerp(m_Color, Color.gray, 0.666f);
-			}
-		}
+		Orbit orbit = CreateShot_(transform.position, rotation);
+		orbit.color = m_Color;
 	}
 	
 	/// <summary>
@@ -125,26 +95,10 @@ public class EnemyShotEmitter : MonoBehaviour {
 	/// <returns>ショット</returns>
 	/// <param name="position">位置</param>
 	/// <param name="rotation">方向(Quaternion.identityが上)</param>
-	private GameObject CreateShot_(Vector3 position, Quaternion rotation) {
-		GameObject result = null;
-		if (m_EnemyShotTrash && (0 < m_EnemyShotTrash.childCount)) {
-			//ゴミ箱に有れば
-			//それを使う
-			var shot = m_EnemyShotTrash.GetChild(0);
-			shot.transform.parent = null;
-			shot.transform.position = position;
-			shot.transform.rotation = rotation;
-			result = shot.gameObject;
-			result.SetActive(true);
-		}
-		if (!result) {
-			//まだ構築出来ていなければ
-			//新規にインスタンスを作成
-			result = (GameObject)Instantiate(m_CopySource
-											, position
-											, rotation
-											);
-		}
+	private Orbit CreateShot_(Vector3 position, Quaternion rotation) {
+		Orbit result = Orbit.Instantiate(m_CopySource);
+		result.position = position;
+		result.velocity_position = rotation * (new Vector3(0.0f, m_ShotSpeed, 0.0f));
 		return result;
 	}
 }
