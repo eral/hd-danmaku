@@ -23,6 +23,29 @@ public class Orbit : System.IDisposable {
 	}
 
 	/// <summary>
+	/// インスタンス作成
+	/// </summary>
+	/// <param name="sprite">設定するスプライト</param>
+	/// <returns>インスタンス</returns>
+	public static Orbit Instantiate(OrbitMaterial material, int index) {
+		Orbit result = new Orbit();
+		result.m_Material = material;
+		result.m_Index = index;
+		return result;
+	}
+
+	/// <summary>
+	/// インスタンス破棄
+	/// </summary>
+	/// <param name="sprite">インスタンス</param>
+	public static void Destory(Orbit orbit) {
+		orbit.m_Material.m_OrbitObjects[orbit.m_Index].Init(null);
+		orbit.m_Material.FreeOrbitIndices(orbit.m_Index);
+		orbit.m_Material = null;
+		orbit.m_Index = -1;
+	}
+
+	/// <summary>
 	/// Disposeインターフェース
 	/// </summary>
 	public void Dispose() {
@@ -32,6 +55,15 @@ public class Orbit : System.IDisposable {
 			m_Material = null;
 			m_Index = -1;
 		}
+	}
+
+	public bool valid {
+		get{return m_Material.m_OrbitObjects[m_Index].valid;}
+	}
+
+	public int user_flag {
+		get{return m_Material.m_OrbitObjects[m_Index].user_flag;}
+		set{m_Material.m_OrbitObjects[m_Index].user_flag = value;}
 	}
 
 	public Vector3 position {
@@ -62,6 +94,11 @@ public class Orbit : System.IDisposable {
 	public Vector3 velocity_scale {
 		get{return m_Material.m_OrbitObjects[m_Index].velocity_scale;}
 		set{m_Material.m_OrbitObjects[m_Index].velocity_scale = value;}
+	}
+
+	public Bounds collider_bounds {
+		get{return m_Material.m_OrbitObjects[m_Index].collider_bounds;}
+		set{m_Material.m_OrbitObjects[m_Index].collider_bounds = value;}
 	}
 
 	public Color color {

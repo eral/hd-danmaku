@@ -66,6 +66,7 @@ public class OrbitMaterial : MonoBehaviour {
 		if (!m_Mesh) {
 			m_Mesh = new Mesh();
 			m_Mesh.name = "OrbitMesh";
+			m_Mesh.MarkDynamic();
 		}
 		m_MeshFilter.sharedMesh = m_Mesh;
 		if (!m_Material) {
@@ -141,18 +142,9 @@ public class OrbitMaterial : MonoBehaviour {
 					//orderに差が有れば
 					//order順
 					return m_OrbitObjects[x].order - m_OrbitObjects[y].order;
-				} else if (m_OrbitObjects[x].inittime < m_OrbitObjects[y].inittime) {
-					//xの方が先にリセットされているなら
-					//xが前
-					return -1;
-				} else if (m_OrbitObjects[y].inittime < m_OrbitObjects[x].inittime) {
-					//yの方が先にリセットされているなら
-					//xが後
-					return 1;
 				} else {
-					//違うなら
-					//同順
-					return 0;
+					//initorder順
+					return m_OrbitObjects[x].initorder - m_OrbitObjects[y].initorder;
 				}
 			});
 			

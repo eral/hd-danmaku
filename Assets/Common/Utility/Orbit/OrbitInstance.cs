@@ -25,8 +25,12 @@ public class OrbitInstance : MonoBehaviour {
 		OrbitMaterial result = null;
 		int hash = material.GetHashCode();
 		if (m_Material.ContainsKey(hash)) {
+			//既出なら
+			//それを返す
 			result = m_Material[hash];
 		} else {
+			//無ければ
+			//新規作成
 			var game_object = (GameObject)Instantiate(s_MaterialPrefab);
 			game_object.transform.parent = this.transform;
 			result = game_object.GetComponent<OrbitMaterial>();

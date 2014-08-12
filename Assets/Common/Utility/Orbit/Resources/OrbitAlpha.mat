@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ShotAlpha
+  m_Name: OrbitAlpha
   m_Shader: {fileID: 4800000, guid: f5369dfed63436b47ba8fec6c07cfb34, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1

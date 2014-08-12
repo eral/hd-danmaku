@@ -84,6 +84,25 @@ public class PlayerControl : MonoBehaviour {
 	}
 	
 	/// <summary>
+	/// 軌道物体衝突開始
+	/// </summary>
+	/// <param name="other">衝突対象</param>
+	public void OnOrbitEnter(Orbit orbit) {
+		//敵弾
+		Orbit.Destory(orbit);
+	}
+	
+	/// <summary>
+	/// 周辺軌道物体衝突開始
+	/// </summary>
+	/// <param name="other">衝突対象</param>
+	public void OnOrbitEnterAround(Orbit orbit) {
+		//敵弾
+		m_Score.m_Point += m_Score.m_Graze * 10; //得点加算
+		++m_Score.m_Graze;
+	}
+	
+	/// <summary>
 	/// 移動
 	/// </summary>
 	private void Move_() {
