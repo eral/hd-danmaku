@@ -45,7 +45,25 @@ public class OrbitMaterial : MonoBehaviour {
 			m_UnusedOrbitIndices.Push(index);
 		}
 	}
-	
+
+	/// <summary>
+	/// 軌道物体数取得
+	/// </summary>
+	/// <returns></returns>
+	public int GetOrbitCount() {
+		int result = m_OrbitObjects.Length - m_UnusedOrbitIndices.Count;
+		return result;
+	}
+
+	/// <summary>
+	/// 廃棄済み物体数取得
+	/// </summary>
+	/// <returns></returns>
+	public int GetTrashCount() {
+		int result = m_UnusedOrbitIndices.Count;
+		return result;
+	}
+
 	/// <summary>
 	/// 生成
 	/// </summary>

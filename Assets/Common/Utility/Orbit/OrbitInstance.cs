@@ -46,6 +46,30 @@ public class OrbitInstance : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// 軌道物体数取得
+	/// </summary>
+	/// <returns></returns>
+	public int GetOrbitCount() {
+		int result = 0;
+		foreach (var material in m_Material) {
+			result += material.Value.GetOrbitCount();
+		}
+		return result;
+	}
+
+	/// <summary>
+	/// 廃棄済み物体数取得
+	/// </summary>
+	/// <returns></returns>
+	public int GetTrashCount() {
+		int result = 0;
+		foreach (var material in m_Material) {
+			result += material.Value.GetTrashCount();
+		}
+		return result;
+	}
+
+	/// <summary>
 	/// 生成
 	/// </summary>
 	void Awake() {
