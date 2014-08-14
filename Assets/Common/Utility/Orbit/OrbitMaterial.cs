@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#define CREATE_INDICES_CACHE_THREAD_ENABLE
+
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -123,6 +125,26 @@ public class OrbitMaterial : MonoBehaviour {
 
 			m_Flag |= Flag.DirtyIndex | Flag.DirtyUv | Flag.DirtyColor;
 		}
+#if CREATE_INDICES_CACHE_THREAD_ENABLE
+		System.Threading.Thread thread = null;
+		if (0 != (Flag.DirtyIndex & m_Flag)) {
+			thread = new System.Threading.Thread(new System.Threading.ThreadStart(()=>this.CreateIndicesCache()));
+			thread.Start();
+		}
+		CreateVerticesCache();
+		if (null != thread) {
+			thread.Join();
+		}
+#else //CREATE_INDICES_CACHE_THREAD_ENABLE
+		CreateVerticesCache();
+		CreateIndicesCache();
+#endif //CREATE_INDICES_CACHE_THREAD_ENABLE
+	}
+	
+	/// <summary>
+	/// 頂点更新
+	/// </summary>
+	void CreateVerticesCache() {
 		for (int i = 0, i_max = m_OrbitObjects.Length; i < i_max; ++i) {
 			//位置更新
 			int k = i * 4;
@@ -144,19 +166,17 @@ public class OrbitMaterial : MonoBehaviour {
 				}
 			}
 		}
+	}
+	
+	/// <summary>
+	/// インデックス更新
+	/// </summary>
+	void CreateIndicesCache() {
 		//インデックス更新
 		if (0 != (Flag.DirtyIndex & m_Flag)) {
 			var draw_order_index = Enumerable.Range(0, m_OrbitObjects.Length).ToList();
 			draw_order_index.Sort((x,y)=>{
-				if (null == m_OrbitObjects[y].sprite) {
-					//yが無効なら
-					//xが前
-					return -1;
-				} else if (null == m_OrbitObjects[x].sprite) {
-					//xが無効なら
-					//xが後
-					return 1;
-				} else if (m_OrbitObjects[x].order != m_OrbitObjects[y].order) {
+				if (m_OrbitObjects[x].order != m_OrbitObjects[y].order) {
 					//orderに差が有れば
 					//order順
 					return m_OrbitObjects[x].order - m_OrbitObjects[y].order;
