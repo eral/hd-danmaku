@@ -187,7 +187,7 @@ public class OrbitMaterial : MonoBehaviour {
 			});
 			
 			m_IndicesCache = draw_order_index.Select(x=>x * 4)
-										.SelectMany(x=>new[]{x + 0, x + 1, x + 2, x + 1, x + 3, x + 2})
+										.SelectMany(x=>new[]{x + 0, x + 1, x + 3, x + 2})
 										.ToArray();
 		}
 	}
@@ -204,7 +204,7 @@ public class OrbitMaterial : MonoBehaviour {
 			m_Mesh.colors = m_ColorsCache;
 		}
 		if (0 != (Flag.DirtyIndex & m_Flag)) {
-			m_Mesh.SetIndices(m_IndicesCache, MeshTopology.Triangles, 0);
+			m_Mesh.SetIndices(m_IndicesCache, MeshTopology.Quads, 0);
 		}
 		m_Flag &= ~(Flag.DirtyIndex | Flag.DirtyUv | Flag.DirtyColor);
 	}
