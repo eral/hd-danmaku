@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ShotAdd
-  m_Shader: {fileID: 4800000, guid: 8643d63307a99474f9281ed47a701eff, type: 3}
+  m_Name: OrbitAlpha
+  m_Shader: {fileID: 4800000, guid: f5369dfed63436b47ba8fec6c07cfb34, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -17,7 +17,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: d2e5ff17ffc44854592b4ff6d9f771be, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:

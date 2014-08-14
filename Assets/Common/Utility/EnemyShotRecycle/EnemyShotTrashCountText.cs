@@ -28,6 +28,7 @@ public class EnemyShotTrashCountText : MonoBehaviour {
 	/// </summary>
 	void Update () {
 		var count = m_EnemyShotTrash.childCount;
+		count += OrbitInstance.Instantiate().GetTrashCount();
 		m_Target.text = string.Format(m_Format, count);
 	}
 }

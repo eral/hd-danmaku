@@ -1,8 +1,7 @@
-﻿Shader "Custom/ShotAlpha"
+﻿Shader "Custom/ShotAdd"
 {
 	Properties {
-		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		_Color ("Tint", Color) = (1,1,1,1)
+		_MainTex ("Sprite Texture", 2D) = "white" {}
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 	}
 
@@ -20,7 +19,7 @@
 		ZWrite Off
 		AlphaTest Greater 0
 		Fog { Mode Off }
-		Blend SrcAlpha OneMinusSrcAlpha
+		Blend SrcAlpha One
 
 		Pass {
 		CGPROGRAM
@@ -40,14 +39,12 @@
 				fixed4 color	: COLOR;
 				half2 texcoord	: TEXCOORD0;
 			};
-			
-			fixed4 _Color;
 
 			v2f vert(appdata_t IN) {
 				v2f OUT;
 				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
 				OUT.texcoord = IN.texcoord;
-				OUT.color = IN.color * _Color;
+				OUT.color = IN.color;
 				#ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
 				#endif
