@@ -44,7 +44,6 @@ public struct OrbitObject {
 				var rect = sprite.textureRect;
 				rect.width *= 0.5f;
 				rect.height *= 0.5f;
-				var that = this;
 				vertices_base = new[]{new Vector3(-rect.width,  rect.height, 0.0f)
 									, new Vector3(rect.width,  rect.height, 0.0f)
 									, new Vector3(-rect.width, -rect.height, 0.0f)
