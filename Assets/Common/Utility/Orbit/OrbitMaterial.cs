@@ -1,6 +1,4 @@
-﻿#define CREATE_INDICES_CACHE_THREAD_ENABLE
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -125,20 +123,8 @@ public class OrbitMaterial : MonoBehaviour {
 
 			m_Flag |= Flag.DirtyIndex | Flag.DirtyUv | Flag.DirtyColor;
 		}
-#if CREATE_INDICES_CACHE_THREAD_ENABLE
-		System.Threading.Thread thread = null;
-		if (0 != (Flag.DirtyIndex & m_Flag)) {
-			thread = new System.Threading.Thread(new System.Threading.ThreadStart(()=>this.CreateIndicesCache()));
-			thread.Start();
-		}
-		CreateVerticesCache();
-		if (null != thread) {
-			thread.Join();
-		}
-#else //CREATE_INDICES_CACHE_THREAD_ENABLE
 		CreateVerticesCache();
 		CreateIndicesCache();
-#endif //CREATE_INDICES_CACHE_THREAD_ENABLE
 	}
 	
 	/// <summary>
@@ -187,7 +173,7 @@ public class OrbitMaterial : MonoBehaviour {
 			});
 			
 			m_IndicesCache = draw_order_index.Select(x=>x * 4)
-										.SelectMany(x=>new[]{x + 0, x + 1, x + 3, x + 2})
+										.SelectMany(x=>new[]{x + 0, x + 1, x + 2, x + 1, x + 3, x + 2})
 										.ToArray();
 		}
 	}
@@ -204,7 +190,7 @@ public class OrbitMaterial : MonoBehaviour {
 			m_Mesh.colors = m_ColorsCache;
 		}
 		if (0 != (Flag.DirtyIndex & m_Flag)) {
-			m_Mesh.SetIndices(m_IndicesCache, MeshTopology.Quads, 0);
+			m_Mesh.SetIndices(m_IndicesCache, MeshTopology.Triangles, 0);
 		}
 		m_Flag &= ~(Flag.DirtyIndex | Flag.DirtyUv | Flag.DirtyColor);
 	}
