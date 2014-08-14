@@ -39,15 +39,22 @@ public class OrbitUpdater : MonoBehaviour {
 				OrbitalCalculation(ref m_OrbitMaterial.m_OrbitObjects[i], Time.deltaTime);
 
 				if (IsInvisible(m_OrbitMaterial.m_OrbitObjects[i])) {
+					//画面外なら
+					//破棄
+					m_OrbitMaterial.m_OrbitObjects[i].Init(null);
 					m_OrbitMaterial.FreeOrbitIndices(i);
 				} else if (IsEnterOntoPlayerAround(m_OrbitMaterial.m_OrbitObjects[i])) {
+					//周辺接触なら
 					var orbit = Orbit.Instantiate(m_OrbitMaterial, i);
+					//かすり処理
 					if (0 == (m_OrbitMaterial.m_OrbitObjects[i].user_flag & 0x01)) {
 						m_PlayerAround.OnOrbitEnter(orbit);
 						m_OrbitMaterial.m_OrbitObjects[i].user_flag |= 0x01;
 					}
 
 					if (IsEnterOntoPlayer(m_OrbitMaterial.m_OrbitObjects[i])) {
+						//接触なら
+						//接触処理
 						m_Player.OnOrbitEnter(orbit);
 					}
 				}
