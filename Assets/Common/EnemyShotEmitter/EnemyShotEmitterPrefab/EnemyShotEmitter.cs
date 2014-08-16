@@ -98,7 +98,7 @@ public class EnemyShotEmitter : MonoBehaviour {
 	private Orbit CreateShot_(Vector3 position, Quaternion rotation) {
 		Orbit result = Orbit.Instantiate(m_CopySource);
 		result.position = position;
-		result.velocity_position = rotation * (new Vector3(0.0f, m_ShotSpeed, 0.0f));
+		result.velocity_position = rotation * (new Vector2(0.0f, m_ShotSpeed));
 		return result;
 	}
 }
