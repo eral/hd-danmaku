@@ -59,14 +59,12 @@ public class PlayerControl : MonoBehaviour {
 		var target_layer = other.gameObject.layer;
 		if (m_LayerFlagEnemyShot == target_layer) {
 			//敵弾
-			other.SendMessage("OnBecameInvisible");
-			//Destroy(other.gameObject);
+			other.GetComponent<OrbitObject>().Destory();
 		} else if (m_LayerFlagEnemy == target_layer) {
 			//敵
 		} else if (m_LayerFlagItem == target_layer) {
 			//アイテム
-			other.SendMessage("OnBecameInvisible");
-			//Destroy(other.gameObject);
+			other.GetComponent<OrbitObject>().Destory();
 		}
 	}
 	
@@ -81,25 +79,6 @@ public class PlayerControl : MonoBehaviour {
 			m_Score.m_Point += m_Score.m_Graze * 10; //得点加算
 			++m_Score.m_Graze;
 		}
-	}
-	
-	/// <summary>
-	/// 軌道物体衝突開始
-	/// </summary>
-	/// <param name="other">衝突対象</param>
-	public void OnOrbitEnter(Orbit orbit) {
-		//敵弾
-		Orbit.Destory(orbit);
-	}
-	
-	/// <summary>
-	/// 周辺軌道物体衝突開始
-	/// </summary>
-	/// <param name="other">衝突対象</param>
-	public void OnOrbitEnterAround(Orbit orbit) {
-		//敵弾
-		m_Score.m_Point += m_Score.m_Graze * 10; //得点加算
-		++m_Score.m_Graze;
 	}
 	
 	/// <summary>

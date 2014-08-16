@@ -22,12 +22,4 @@ public class PlayerAround : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		m_PlayerControl.OnTriggerEnter2DAround(other);
 	}
-	
-	/// <summary>
-	/// 軌道物体衝突開始
-	/// </summary>
-	/// <param name="other">衝突対象</param>
-	public void OnOrbitEnter(Orbit orbit) {
-		m_PlayerControl.OnOrbitEnterAround(orbit);
-	}
 }

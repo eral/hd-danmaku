@@ -21,8 +21,7 @@ public class ShotCountText : MonoBehaviour {
 	/// 更新
 	/// </summary>
 	void Update () {
-		var count = FindObjectsOfType<GameObject>().Where(x=>0!=(~m_LayerTarget & x.layer)).Count();
-		count += OrbitInstance.Instantiate().GetOrbitCount();
+		var count = OrbitInstance.Instantiate().GetOrbitCount();
 		m_Target.text = string.Format(m_Format, count);
 	}
 }
