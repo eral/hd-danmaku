@@ -299,7 +299,6 @@ Transform:
   m_Children:
   - {fileID: 102221961}
   - {fileID: 205611163}
-  - {fileID: 461802240}
   m_Father: {fileID: 0}
   m_RootOrder: 10
 --- !u!114 &173301372
@@ -688,61 +687,6 @@ Prefab:
   m_RootGameObject: {fileID: 878639023}
   m_IsPrefabParent: 0
   m_IsExploded: 1
---- !u!1 &461802239
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 461802240}
-  - 50: {fileID: 461802242}
-  - 61: {fileID: 461802241}
-  m_Layer: 13
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &461802240
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 461802239}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 173301371}
-  m_RootOrder: 2
---- !u!61 &461802241
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 461802239}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Size: {x: 1280, y: 720}
-  m_Center: {x: 0, y: 0}
---- !u!50 &461802242
-Rigidbody2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 461802239}
-  m_Mass: 1e+06
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_FixedAngle: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
 --- !u!1 &496491986
 GameObject:
   m_ObjectHideFlags: 0

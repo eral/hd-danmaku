@@ -3,8 +3,8 @@ using System.Collections;
 
 [System.Serializable]
 public class Orbit : System.IDisposable {
-	[SerializeField] private OrbitMaterial	m_Material	= null;
-	[SerializeField] private OrbitObject	m_Orbit		= null;
+	[SerializeField] private OrbitMaterial	m_Material = null;
+	[SerializeField] private int			m_Index = -1;
 
 	/// <summary>
 	/// インスタンス作成
@@ -15,9 +15,9 @@ public class Orbit : System.IDisposable {
 		Orbit result = new Orbit();
 		var orbit_instance = OrbitInstance.Instantiate();
 		var material = orbit_instance.GetOrbitMaterial("OrbitAlpha", sprite.texture);
-		result.m_Orbit = material.AllocOrbitIndices();
+		result.m_Index = material.AllocOrbitIndices();
 		result.m_Material = material;
-		result.m_Orbit.Init(sprite);
+		result.m_Material.m_OrbitObjects[result.m_Index].Init(sprite);
 		result.m_Material.m_Flag |= OrbitMaterial.Flag.DirtyIndex | OrbitMaterial.Flag.DirtyUv | OrbitMaterial.Flag.DirtyColor;
 		return result;
 	}
@@ -27,10 +27,10 @@ public class Orbit : System.IDisposable {
 	/// </summary>
 	/// <param name="sprite">設定するスプライト</param>
 	/// <returns>インスタンス</returns>
-	public static Orbit Instantiate(OrbitMaterial material, OrbitObject orbit) {
+	public static Orbit Instantiate(OrbitMaterial material, int index) {
 		Orbit result = new Orbit();
 		result.m_Material = material;
-		result.m_Orbit = orbit;
+		result.m_Index = index;
 		return result;
 	}
 
@@ -39,10 +39,10 @@ public class Orbit : System.IDisposable {
 	/// </summary>
 	/// <param name="sprite">インスタンス</param>
 	public static void Destory(Orbit orbit) {
-		orbit.m_Orbit.Init(null);
-		orbit.m_Material.FreeOrbitIndices(orbit.m_Orbit);
+		orbit.m_Material.m_OrbitObjects[orbit.m_Index].Init(null);
+		orbit.m_Material.FreeOrbitIndices(orbit.m_Index);
 		orbit.m_Material = null;
-		orbit.m_Orbit = null;
+		orbit.m_Index = -1;
 	}
 
 	/// <summary>
@@ -50,59 +50,69 @@ public class Orbit : System.IDisposable {
 	/// </summary>
 	public void Dispose() {
 		if (null != m_Material) {
-			m_Material.FreeOrbitIndices(m_Orbit);
+			m_Material.FreeOrbitIndices(m_Index);
 
 			m_Material = null;
-			m_Orbit = null;
+			m_Index = -1;
 		}
 	}
 
 	public bool valid {
-		get{return m_Orbit.valid;}
+		get{return m_Material.m_OrbitObjects[m_Index].valid;}
 	}
 
 	public int user_flag {
-		get{return m_Orbit.user_flag;}
-		set{m_Orbit.user_flag = value;}
+		get{return m_Material.m_OrbitObjects[m_Index].user_flag;}
+		set{m_Material.m_OrbitObjects[m_Index].user_flag = value;}
 	}
 
 	public Vector3 position {
-		get{return m_Orbit.position;}
-		set{m_Orbit.position = value;}
+		get{return m_Material.m_OrbitObjects[m_Index].position;}
+		set{m_Material.m_OrbitObjects[m_Index].position = value;}
 	}
 
 	public Quaternion rotation {
-		get{return m_Orbit.rotation;}
-		set{m_Orbit.rotation = value;}
+		get{return m_Material.m_OrbitObjects[m_Index].rotation;}
+		set{m_Material.m_OrbitObjects[m_Index].rotation = value;}
 	}
 
 	public Vector3 scale {
-		get{return m_Orbit.scale;}
-		set{m_Orbit.scale = value;}
+		get{return m_Material.m_OrbitObjects[m_Index].scale;}
+		set{m_Material.m_OrbitObjects[m_Index].scale = value;}
 	}
 
-	public Vector2 velocity_position {
-		get{return m_Orbit.velocity_position;}
-		set{m_Orbit.velocity_position = value;}
+	public Vector3 velocity_position {
+		get{return m_Material.m_OrbitObjects[m_Index].velocity_position;}
+		set{m_Material.m_OrbitObjects[m_Index].velocity_position = value;}
 	}
 
-	public float velocity_rotation {
-		get{return m_Orbit.velocity_rotation;}
-		set{m_Orbit.velocity_rotation = value;}
+	public Quaternion velocity_rotation {
+		get{return m_Material.m_OrbitObjects[m_Index].velocity_rotation;}
+		set{m_Material.m_OrbitObjects[m_Index].velocity_rotation = value;}
+	}
+
+	public Vector3 velocity_scale {
+		get{return m_Material.m_OrbitObjects[m_Index].velocity_scale;}
+		set{m_Material.m_OrbitObjects[m_Index].velocity_scale = value;}
+	}
+
+	public Bounds collider_bounds {
+		get{return m_Material.m_OrbitObjects[m_Index].collider_bounds;}
+		set{m_Material.m_OrbitObjects[m_Index].collider_bounds = value;}
 	}
 
 	public Color color {
-		get{return m_Orbit.color;}
+		get{return m_Material.m_OrbitObjects[m_Index].color;}
 		set{
-			m_Orbit.color = value;
+			m_Material.m_OrbitObjects[m_Index].color = value;
 			m_Material.m_Flag |= OrbitMaterial.Flag.DirtyColor;
 		}
 	}
 
 	public int order {
-		get{return m_Orbit.order;}
+		get{return m_Material.m_OrbitObjects[m_Index].order;}
 		set{
-			m_Orbit.order = value;
+			m_Material.m_OrbitObjects[m_Index].order = value;
 			m_Material.m_Flag |= OrbitMaterial.Flag.DirtyIndex;
 		}
 	}
