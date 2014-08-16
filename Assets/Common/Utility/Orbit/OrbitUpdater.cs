@@ -8,6 +8,7 @@ public class OrbitUpdater : MonoBehaviour {
 	public OrbitMaterial	m_OrbitMaterial;
 	public PlayerControl	m_Player;
 	public PlayerAround		m_PlayerAround;
+	public Rect				m_CameraViewArea;
 
 	/// <summary>
 	/// 生成
@@ -20,13 +21,31 @@ public class OrbitUpdater : MonoBehaviour {
 	/// 初回更新前
 	/// </summary>
 	void Start() {
-		var player_game_object = GameObject.FindGameObjectWithTag("Player");
-		if (player_game_object) {
-			m_Player = player_game_object.GetComponent<PlayerControl>();
+		if (!m_Player) {
+			var player_game_object = GameObject.FindGameObjectWithTag("Player");
+			if (player_game_object) {
+				m_Player = player_game_object.GetComponent<PlayerControl>();
+			}
+			if (!m_PlayerAround) {
+				var player_around_transform = player_game_object.transform.FindChild("PlayerAround");
+				if (player_around_transform) {
+					m_PlayerAround = player_around_transform.GetComponent<PlayerAround>();
+				}
+			}
 		}
-		var player_around_transform = player_game_object.transform.FindChild("PlayerAround");
-		if (player_around_transform) {
-			m_PlayerAround = player_around_transform.GetComponent<PlayerAround>();
+		{
+			var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+			Vector2 camera_size;
+			if (camera.isOrthoGraphic) {
+				//正射影
+				camera_size.y = camera.orthographicSize;
+			} else {
+				//透視射影
+				camera_size.y = Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad) * Mathf.Abs(camera.transform.position.z);
+			}
+			camera_size.x = camera_size.y * camera.aspect;
+			
+			m_CameraViewArea = new Rect(-camera_size.x, -camera_size.y, camera_size.x * 2.0f, camera_size.y * 2.0f);
 		}
 	}
 	
@@ -78,16 +97,17 @@ public class OrbitUpdater : MonoBehaviour {
 	/// <param name="orbit">軌道物体</param>
 	/// <returns>true:画面外, false:画面内</returns>
 	private bool IsInvisible(OrbitObject orbit) {
-		Vector3 position = orbit.position;
+		var position = orbit.position;
+		var bounds = orbit.draw_bounds;
 
 		bool result = false;
-		if (position.x < -640.0f) {
+		if (position.x + bounds.max.x < m_CameraViewArea.xMin) {
 			result = true;
-		} else if (640.0f < position.x) {
+		} else if (m_CameraViewArea.xMax < position.x + bounds.min.x) {
 			result = true;
-		} else if (position.y < -360.0f) {
+		} else if (position.y + bounds.max.y < m_CameraViewArea.yMin) {
 			result = true;
-		} else if (360.0f < position.y) {
+		} else if (m_CameraViewArea.yMax < position.y + bounds.min.y) {
 			result = true;
 		} else {
 			//範囲内

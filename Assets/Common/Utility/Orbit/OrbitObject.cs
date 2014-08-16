@@ -15,15 +15,16 @@ public struct OrbitObject {
 	public	Sprite			sprite;				//スプライト
 	public	OrbitTransform	transform;			//トランスフォーム
 	public	OrbitTransform	velocity;			//速度
+	public	Bounds			draw_bounds;		//描画範囲
 	public	Bounds			collider_bounds;	//当たり判定
 	public	Color			color;				//色
 	public	int				order;				//描画順(小さい方が先)
 	public	int				initorder;			//初期化順
 
-	static int s_initorder = int.MinValue;
-
 	private	Vector3[]		vertices_base;
 	private	Vector2[]		uvs_base;
+
+	static int s_initorder = int.MinValue;
 
 	public void Init(Sprite sp = null) {
 		if (null != sp) {
@@ -42,6 +43,9 @@ public struct OrbitObject {
 
 			{
 				var rect = sprite.textureRect;
+				draw_bounds.center = Vector3.zero;
+				draw_bounds.size = new Vector3(rect.width, rect.height, float.Epsilon);
+
 				rect.width *= 0.5f;
 				rect.height *= 0.5f;
 				vertices_base = new[]{new Vector3(-rect.width,  rect.height, 0.0f)
