@@ -28,10 +28,11 @@
 			#pragma multi_compile DUMMY PIXELSNAP_ON
 			#include "UnityCG.cginc"
 			
+			static const float2	c_color_offset = 256.0;
+
 			struct appdata_t {
 				float4 vertex	: POSITION;
-				float4 color	: COLOR;
-				float2 texcoord	: TEXCOORD0;
+				float4 tangent	: TANGENT;
 			};
 
 			struct v2f {
@@ -40,11 +41,18 @@
 				half2 texcoord	: TEXCOORD0;
 			};
 
+			float ColorValue(float f) {
+				return floor(frac(f) * 256.0) * 2.0;
+			}
+
 			v2f vert(appdata_t IN) {
 				v2f OUT;
 				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
-				OUT.texcoord = IN.texcoord;
-				OUT.color = IN.color;
+				OUT.texcoord = IN.tangent.xy;
+				OUT.color.r = ColorValue(IN.tangent.z);
+				OUT.color.g = ColorValue(IN.tangent.z * c_color_offset);
+				OUT.color.b = ColorValue(IN.tangent.w);
+				OUT.color.a = 1.0f;//ColorValue(IN.tangent.w * c_color_offset);
 				#ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
 				#endif

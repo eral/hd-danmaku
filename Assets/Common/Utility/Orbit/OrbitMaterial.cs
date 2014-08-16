@@ -12,8 +12,7 @@ public class OrbitMaterial : MonoBehaviour {
 	[EnumMask]	public Flag				m_Flag;
 	private Stack<int>	m_UnusedOrbitIndices;
 	private Vector3[]	m_VerticesCache;
-	private Vector2[]	m_UvsCache;
-	private Color[]		m_ColorsCache;
+	private Vector4[]	m_TangentsCache;
 	private int[]		m_IndicesCache;
 
 	[System.Flags]
@@ -118,8 +117,7 @@ public class OrbitMaterial : MonoBehaviour {
 		var vertices_length = m_OrbitObjects.Length * 4;
 		if (m_VerticesCache.Length != vertices_length) {
 			m_VerticesCache = new Vector3[vertices_length];
-			m_UvsCache = new Vector2[vertices_length];
-			m_ColorsCache = new Color[vertices_length];
+			m_TangentsCache = new Vector4[vertices_length];
 
 			m_Flag |= Flag.DirtyIndex | Flag.DirtyUv | Flag.DirtyColor;
 		}
@@ -137,18 +135,14 @@ public class OrbitMaterial : MonoBehaviour {
 			foreach (var vertex in m_OrbitObjects[i].vertices) {
 				m_VerticesCache[k++] = vertex;
 			}
-			//UV更新
-			if (0 != (Flag.DirtyUv & m_Flag)) {
+			//UV・カラー更新
+			if (0 != ((Flag.DirtyUv | Flag.DirtyColor) & m_Flag)) {
 				k = i * 4;
+				var colors = m_OrbitObjects[i].colors.GetEnumerator();
 				foreach (var uv in m_OrbitObjects[i].uvs) {
-					m_UvsCache[k++] = uv;
-				}
-			}
-			//カラー更新
-			if (0 != (Flag.DirtyColor & m_Flag)) {
-				k = i * 4;
-				foreach (var color in m_OrbitObjects[i].colors) {
-					m_ColorsCache[k++] = color;
+					colors.MoveNext();
+					var color = colors.Current;
+					m_TangentsCache[k++] = new Vector4(uv.x, uv.y, color.r * 0.5f + color.g * 0.5f / 256.0f, color.b * 0.5f + color.a * 0.5f / 256.0f);
 				}
 			}
 		}
@@ -183,11 +177,8 @@ public class OrbitMaterial : MonoBehaviour {
 	/// </summary>
 	void ApplyMesh() {
 		m_Mesh.vertices = m_VerticesCache;
-		if (0 != (Flag.DirtyUv & m_Flag)) {
-			m_Mesh.uv = m_UvsCache;
-		}
-		if (0 != (Flag.DirtyColor & m_Flag)) {
-			m_Mesh.colors = m_ColorsCache;
+		if (0 != ((Flag.DirtyUv | Flag.DirtyColor) & m_Flag)) {
+			m_Mesh.tangents = m_TangentsCache;
 		}
 		if (0 != (Flag.DirtyIndex & m_Flag)) {
 			m_Mesh.SetIndices(m_IndicesCache, MeshTopology.Triangles, 0);
