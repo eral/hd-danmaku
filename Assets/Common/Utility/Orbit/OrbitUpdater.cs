@@ -8,7 +8,7 @@ public class OrbitUpdater : MonoBehaviour {
 	public OrbitMaterial	m_OrbitMaterial;
 	public PlayerControl	m_Player;
 	public PlayerAround		m_PlayerAround;
-	public Rect				m_CameraViewArea;
+	public Bounds			m_CameraViewBounds;
 
 	/// <summary>
 	/// 生成
@@ -35,17 +35,20 @@ public class OrbitUpdater : MonoBehaviour {
 		}
 		{
 			var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+			var camera_position = camera.transform.position;
 			Vector2 camera_size;
 			if (camera.isOrthoGraphic) {
 				//正射影
 				camera_size.y = camera.orthographicSize;
 			} else {
 				//透視射影
-				camera_size.y = Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad) * Mathf.Abs(camera.transform.position.z);
+				camera_size.y = Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad) * Mathf.Abs(camera_position.z);
 			}
 			camera_size.x = camera_size.y * camera.aspect;
 			
-			m_CameraViewArea = new Rect(-camera_size.x, -camera_size.y, camera_size.x * 2.0f, camera_size.y * 2.0f);
+			m_CameraViewBounds = new Bounds(new Vector3(camera_position.x, camera_position.y, 0.0f)
+											, new Vector3(camera_size.x * 2.0f, camera_size.y * 2.0f, float.Epsilon)
+											);
 		}
 	}
 	
@@ -97,17 +100,13 @@ public class OrbitUpdater : MonoBehaviour {
 	/// <param name="orbit">軌道物体</param>
 	/// <returns>true:画面外, false:画面内</returns>
 	private bool IsInvisible(OrbitObject orbit) {
-		var position = orbit.position;
-		var bounds = orbit.draw_bounds;
+		var distance = m_CameraViewBounds.center - orbit.position;
+		var extents = m_CameraViewBounds.extents + orbit.draw_bounds.extents;
 
 		bool result = false;
-		if (position.x + bounds.max.x < m_CameraViewArea.xMin) {
+		if (extents.x < Mathf.Abs(distance.x)) {
 			result = true;
-		} else if (m_CameraViewArea.xMax < position.x + bounds.min.x) {
-			result = true;
-		} else if (position.y + bounds.max.y < m_CameraViewArea.yMin) {
-			result = true;
-		} else if (m_CameraViewArea.yMax < position.y + bounds.min.y) {
+		} else if (extents.y < Mathf.Abs(distance.y)) {
 			result = true;
 		} else {
 			//範囲内
