@@ -5,7 +5,10 @@
 		DarkColor ("DarkColor", Color) = (0,0,0,1)
 	}
 	SubShader {
-		Tags { "RenderType"="Background" }
+		Tags { 
+			"Queue"="Background" 
+			"RenderType"="Background"
+		}
 		LOD 200
 		
 		Cull Off
