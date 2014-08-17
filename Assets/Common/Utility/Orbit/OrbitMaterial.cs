@@ -11,7 +11,6 @@ public class OrbitMaterial : MonoBehaviour {
 				public Material			m_Material;
 	[EnumMask]	public Flag				m_Flag;
 	private Stack<int>	m_UnusedOrbitIndices;
-	private Vector3[]	m_VerticesCache;
 	private Vector4[]	m_TangentsCache;
 	private int[]		m_IndicesCache;
 
@@ -73,7 +72,6 @@ public class OrbitMaterial : MonoBehaviour {
 		for (int i = m_OrbitObjects.Length - 1, i_min = 0; i_min <= i; --i) {
 			m_UnusedOrbitIndices.Push(i);
 		}
-		m_VerticesCache = new Vector3[0];
 	}
 	
 	/// <summary>
