@@ -84,6 +84,8 @@ public class OrbitMaterial : MonoBehaviour {
 			m_Mesh = new Mesh();
 			m_Mesh.name = "OrbitMesh";
 			m_Mesh.MarkDynamic();
+			var vertices_length = m_OrbitObjects.Length * 4;
+			m_Mesh.vertices = Enumerable.Repeat(Vector3.zero, vertices_length).ToArray();
 		}
 		m_MeshFilter.sharedMesh = m_Mesh;
 		if (!m_Material) {
@@ -114,13 +116,6 @@ public class OrbitMaterial : MonoBehaviour {
 	/// </summary>
 	void CreateMeshCache() {
 		//頂点更新
-		var vertices_length = m_OrbitObjects.Length * 4;
-		if (m_VerticesCache.Length != vertices_length) {
-			m_VerticesCache = new Vector3[vertices_length];
-			m_TangentsCache = new Vector4[vertices_length];
-
-			m_Flag |= Flag.DirtyIndex | Flag.DirtyUv | Flag.DirtyColor;
-		}
 		CreateVerticesCache();
 		CreateIndicesCache();
 	}
@@ -129,21 +124,28 @@ public class OrbitMaterial : MonoBehaviour {
 	/// 頂点更新
 	/// </summary>
 	void CreateVerticesCache() {
+		var vertices_length = m_OrbitObjects.Length * 4;
+		m_TangentsCache = new Vector4[vertices_length];
+		int k = 0;
 		for (int i = 0, i_max = m_OrbitObjects.Length; i < i_max; ++i) {
-			//位置更新
-			int k = i * 4;
+			//位置・UV・カラー更新
+			var colors = m_OrbitObjects[i].colors.GetEnumerator();
+			var uvs = m_OrbitObjects[i].uvs.GetEnumerator();
 			foreach (var vertex in m_OrbitObjects[i].vertices) {
-				m_VerticesCache[k++] = vertex;
-			}
-			//UV・カラー更新
-			if (0 != ((Flag.DirtyUv | Flag.DirtyColor) & m_Flag)) {
-				k = i * 4;
-				var colors = m_OrbitObjects[i].colors.GetEnumerator();
-				foreach (var uv in m_OrbitObjects[i].uvs) {
-					colors.MoveNext();
-					var color = colors.Current;
-					m_TangentsCache[k++] = new Vector4(uv.x, uv.y, color.r * 0.5f + color.g * 0.5f / 256.0f, color.b * 0.5f + color.a * 0.5f / 256.0f);
-				}
+				colors.MoveNext();
+				var color = colors.Current;
+				uvs.MoveNext();
+				var uv = uvs.Current;
+
+				//符号部をSign、指数部をExponent、仮数部をFfractionとした場合、IEEE754のfloatはS1E8F23の形式を取る
+				//S1E8には全く情報を乗せずに、F23だけを使い複数の情報をパックする
+				//頂点・UVパック: 頂点座標11bit(-1024～1023の領域を0～2047として扱う)、UV11bit(0.0～1.0の領域を0.0～0.5として扱う)、空き1bit
+				//カラー2ch: カラー(1ch)11bit(0.0～1.0の領域を0.0～0.5として扱う)、カラー(1ch)11bit(0.0～1.0の領域を0.0～0.5として扱う)、空き1bit
+				m_TangentsCache[k++] = new Vector4(((int)(vertex.x + 1024.0f) / 2048.0f) + (int)(uv.x / 2.0f * 2048.0f) / 2048.0f / 2048.0f
+													, ((int)(vertex.y + 1024.0f) / 2048.0f) + (int)(uv.y / 2.0f * 2048.0f) / 2048.0f / 2048.0f
+													, (int)(color.r / 2.0f * 2048.0f) / 2048.0f + (int)(color.b / 2.0f * 2048.0f) / 2048.0f / 2048.0f
+													, (int)(color.g / 2.0f * 2048.0f) / 2048.0f + (int)(color.a / 2.0f * 2048.0f) / 2048.0f / 2048.0f
+													);
 			}
 		}
 	}
@@ -176,10 +178,7 @@ public class OrbitMaterial : MonoBehaviour {
 	/// メッシュの適応
 	/// </summary>
 	void ApplyMesh() {
-		m_Mesh.vertices = m_VerticesCache;
-		if (0 != ((Flag.DirtyUv | Flag.DirtyColor) & m_Flag)) {
-			m_Mesh.tangents = m_TangentsCache;
-		}
+		m_Mesh.tangents = m_TangentsCache;
 		if (0 != (Flag.DirtyIndex & m_Flag)) {
 			m_Mesh.SetIndices(m_IndicesCache, MeshTopology.Triangles, 0);
 		}
