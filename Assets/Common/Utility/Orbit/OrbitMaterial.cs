@@ -133,11 +133,16 @@ public class OrbitMaterial : MonoBehaviour {
 		for (int i = 0, i_max = m_OrbitObjects.Length; i < i_max; ++i) {
 			//位置・UV・カラー更新
 			int dst = draw_order_inverse_array[i] * 4;
-			var colors = m_OrbitObjects[i].colors.GetEnumerator();
+
+			var color = m_OrbitObjects[i].color;
+			var tangent = new Vector4(0.0f
+									, 0.0f
+									, (int)(color.r / 2.0f * 2048.0f) / 2048.0f + (int)(color.b / 2.0f * 2048.0f) / 2048.0f / 2048.0f
+									, (int)(color.g / 2.0f * 2048.0f) / 2048.0f + (int)(color.a / 2.0f * 2048.0f) / 2048.0f / 2048.0f
+									);
+
 			var uvs = m_OrbitObjects[i].uvs.GetEnumerator();
 			foreach (var vertex in m_OrbitObjects[i].vertices) {
-				colors.MoveNext();
-				var color = colors.Current;
 				uvs.MoveNext();
 				var uv = uvs.Current;
 
@@ -145,11 +150,9 @@ public class OrbitMaterial : MonoBehaviour {
 				//S1E8には全く情報を乗せずに、F23だけを使い複数の情報をパックする
 				//頂点・UVパック: 頂点座標11bit(-1024～1023の領域を0～2047として扱う)、UV11bit(0.0～1.0の領域を0.0～0.5として扱う)、空き1bit
 				//カラー2ch: カラー(1ch)11bit(0.0～1.0の領域を0.0～0.5として扱う)、カラー(1ch)11bit(0.0～1.0の領域を0.0～0.5として扱う)、空き1bit
-				tangents[dst++] = new Vector4(((int)(vertex.x + 1024.0f) / 2048.0f) + (int)(uv.x / 2.0f * 2048.0f) / 2048.0f / 2048.0f
-											, ((int)(vertex.y + 1024.0f) / 2048.0f) + (int)(uv.y / 2.0f * 2048.0f) / 2048.0f / 2048.0f
-											, (int)(color.r / 2.0f * 2048.0f) / 2048.0f + (int)(color.b / 2.0f * 2048.0f) / 2048.0f / 2048.0f
-											, (int)(color.g / 2.0f * 2048.0f) / 2048.0f + (int)(color.a / 2.0f * 2048.0f) / 2048.0f / 2048.0f
-											);
+				tangent.x = ((int)(vertex.x + 1024.0f) / 2048.0f) + (int)(uv.x / 2.0f * 2048.0f) / 2048.0f / 2048.0f;
+				tangent.y = ((int)(vertex.y + 1024.0f) / 2048.0f) + (int)(uv.y / 2.0f * 2048.0f) / 2048.0f / 2048.0f;
+				tangents[dst++] = tangent;
 			}
 		}
 		m_Mesh.tangents = tangents;
