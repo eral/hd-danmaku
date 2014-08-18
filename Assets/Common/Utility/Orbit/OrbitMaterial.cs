@@ -123,16 +123,19 @@ public class OrbitMaterial : MonoBehaviour {
 				return m_OrbitObjects[x].initorder - m_OrbitObjects[y].initorder;
 			}
 		});
+		var draw_order_inverse_array = new int[draw_order_array.Length];
+		for (int i = 0, i_max = draw_order_array.Length; i < i_max; ++i) {
+			draw_order_inverse_array[draw_order_array[i]] = i;
+		}
 
 		var vertices_length = m_OrbitObjects.Length * 4;
 		var tangents = new Vector4[vertices_length];
-		int dst = 0;
 		for (int i = 0, i_max = m_OrbitObjects.Length; i < i_max; ++i) {
 			//位置・UV・カラー更新
-			var draw_order_index = draw_order_array[i];
-			var colors = m_OrbitObjects[draw_order_index].colors.GetEnumerator();
-			var uvs = m_OrbitObjects[draw_order_index].uvs.GetEnumerator();
-			foreach (var vertex in m_OrbitObjects[draw_order_index].vertices) {
+			int dst = draw_order_inverse_array[i] * 4;
+			var colors = m_OrbitObjects[i].colors.GetEnumerator();
+			var uvs = m_OrbitObjects[i].uvs.GetEnumerator();
+			foreach (var vertex in m_OrbitObjects[i].vertices) {
 				colors.MoveNext();
 				var color = colors.Current;
 				uvs.MoveNext();
