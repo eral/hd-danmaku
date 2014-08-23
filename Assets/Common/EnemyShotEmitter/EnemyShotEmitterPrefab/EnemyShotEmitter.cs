@@ -3,13 +3,13 @@ using System.Collections;
 using System.Linq;
 
 public class EnemyShotEmitter : MonoBehaviour {
-							public Sprite		m_CopySource;						//コピー元オブジェクト
-	[PositiveNumber]		public float		m_ShotSpeed			= 100.0f;		//発射速度(px/秒)
-	[Range(0.0f, 180.0f)]	public float		m_ShotCount			= 4.0f;			//発射数(発/秒)
-							public Color		m_Color				= Color.black;	//色
-							public int			m_WayCount			= 1;			//n方向弾
-	[Range(0.0f, 360.0f)]	public float		m_WayAngle			= 0.0f;			//扇角度
-							public bool			m_RegularAngleLimit	= true;			//正多角形角度制限(true:なら360で全方位弾に為る)
+							public OrbitMaterial	m_OrbitMaterial;					//軌道マテリアル
+	[PositiveNumber]		public float			m_ShotSpeed			= 100.0f;		//発射速度(px/秒)
+	[Range(0.0f, 180.0f)]	public float			m_ShotCount			= 4.0f;			//発射数(発/秒)
+							public Color			m_Color				= Color.black;	//色
+							public int				m_WayCount			= 1;			//n方向弾
+	[Range(0.0f, 360.0f)]	public float			m_WayAngle			= 0.0f;			//扇角度
+							public bool				m_RegularAngleLimit	= true;			//正多角形角度制限(true:なら360で全方位弾に為る)
 	
 	private float m_ReloadTimer = 0.0f;
 	
@@ -24,7 +24,7 @@ public class EnemyShotEmitter : MonoBehaviour {
 	/// 更新
 	/// </summary>
 	void Update() {
-		if (null == m_CopySource) {
+		if (null == m_OrbitMaterial) {
 			enabled = false;
 			return;
 		}
@@ -96,7 +96,7 @@ public class EnemyShotEmitter : MonoBehaviour {
 	/// <param name="position">位置</param>
 	/// <param name="rotation">方向(Quaternion.identityが上)</param>
 	private Orbit CreateShot_(Vector3 position, Quaternion rotation) {
-		Orbit result = Orbit.Instantiate(m_CopySource);
+		Orbit result = Orbit.Instantiate(m_OrbitMaterial);
 		result.position = position;
 		result.velocity_position = rotation * (new Vector3(0.0f, m_ShotSpeed, 0.0f));
 		return result;

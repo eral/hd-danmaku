@@ -5,7 +5,7 @@ using Swizzle;
 
 [RequireComponent(typeof(OrbitRenderer))]
 public class OrbitUpdater : MonoBehaviour {
-	public OrbitRenderer	m_OrbitMaterial;
+	public OrbitRenderer	m_OrbitRenderer;
 	public PlayerControl	m_Player;
 	public PlayerAround		m_PlayerAround;
 	public Bounds			m_CameraViewBounds;
@@ -14,7 +14,7 @@ public class OrbitUpdater : MonoBehaviour {
 	/// 生成
 	/// </summary>
 	void Awake() {
-		m_OrbitMaterial = GetComponent<OrbitRenderer>();
+		m_OrbitRenderer = GetComponent<OrbitRenderer>();
 	}
 	
 	/// <summary>
@@ -56,25 +56,25 @@ public class OrbitUpdater : MonoBehaviour {
 	/// 更新
 	/// </summary>
 	void Update() {
-		for (int i = 0, i_max = m_OrbitMaterial.m_OrbitObjects.Length; i < i_max; ++i) {
-			if (m_OrbitMaterial.m_OrbitObjects[i].valid) {
-				OrbitalCalculation(ref m_OrbitMaterial.m_OrbitObjects[i], Time.deltaTime);
+		for (int i = 0, i_max = m_OrbitRenderer.m_OrbitObjects.Length; i < i_max; ++i) {
+			if (m_OrbitRenderer.m_OrbitObjects[i].valid) {
+				OrbitalCalculation(ref m_OrbitRenderer.m_OrbitObjects[i], Time.deltaTime);
 
-				if (IsInvisible(m_OrbitMaterial.m_OrbitObjects[i])) {
+				if (IsInvisible(m_OrbitRenderer.m_OrbitObjects[i])) {
 					//画面外なら
 					//破棄
-					m_OrbitMaterial.m_OrbitObjects[i].Init(null);
-					m_OrbitMaterial.FreeOrbitIndices(i);
-				} else if (IsEnterOntoPlayerAround(m_OrbitMaterial.m_OrbitObjects[i])) {
+					m_OrbitRenderer.m_OrbitObjects[i].Init(null);
+					m_OrbitRenderer.FreeOrbitIndices(i);
+				} else if (IsEnterOntoPlayerAround(m_OrbitRenderer.m_OrbitObjects[i])) {
 					//周辺接触なら
-					var orbit = Orbit.Instantiate(m_OrbitMaterial, i);
+					var orbit = new Orbit(m_OrbitRenderer, i);
 					//かすり処理
-					if (0 == (m_OrbitMaterial.m_OrbitObjects[i].user_flag & 0x01)) {
+					if (0 == (m_OrbitRenderer.m_OrbitObjects[i].user_flag & 0x01)) {
 						m_PlayerAround.OnOrbitEnter(orbit);
-						m_OrbitMaterial.m_OrbitObjects[i].user_flag |= 0x01;
+						m_OrbitRenderer.m_OrbitObjects[i].user_flag |= 0x01;
 					}
 
-					if (IsEnterOntoPlayer(m_OrbitMaterial.m_OrbitObjects[i])) {
+					if (IsEnterOntoPlayer(m_OrbitRenderer.m_OrbitObjects[i])) {
 						//接触なら
 						//接触処理
 						m_Player.OnOrbitEnter(orbit);

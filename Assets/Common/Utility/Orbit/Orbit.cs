@@ -9,27 +9,14 @@ public class Orbit : System.IDisposable {
 	/// <summary>
 	/// インスタンス作成
 	/// </summary>
-	/// <param name="sprite">設定するスプライト</param>
+	/// <param name="material">マテリアル</param>
 	/// <returns>インスタンス</returns>
-	public static Orbit Instantiate(Sprite sprite) {
-		Orbit result = new Orbit();
+	public static Orbit Instantiate(OrbitMaterial orbit_material) {
 		var orbit_instance = OrbitInstance.Instantiate();
-		var material = orbit_instance.GetOrbitMaterial("OrbitAlpha", sprite.texture);
-		result.m_Index = material.AllocOrbitIndices();
-		result.m_Material = material;
-		result.m_Material.m_OrbitObjects[result.m_Index].Init(sprite);
-		return result;
-	}
-
-	/// <summary>
-	/// インスタンス作成
-	/// </summary>
-	/// <param name="sprite">設定するスプライト</param>
-	/// <returns>インスタンス</returns>
-	public static Orbit Instantiate(OrbitRenderer material, int index) {
-		Orbit result = new Orbit();
-		result.m_Material = material;
-		result.m_Index = index;
+		var material = orbit_instance.GetOrbitMaterial(orbit_material.m_Material);
+		var index = material.AllocOrbitIndices();
+		material.m_OrbitObjects[index].Init(orbit_material.m_Sprite);
+		Orbit result = new Orbit(material, index);
 		return result;
 	}
 
@@ -39,9 +26,7 @@ public class Orbit : System.IDisposable {
 	/// <param name="sprite">インスタンス</param>
 	public static void Destory(Orbit orbit) {
 		orbit.m_Material.m_OrbitObjects[orbit.m_Index].Init(null);
-		orbit.m_Material.FreeOrbitIndices(orbit.m_Index);
-		orbit.m_Material = null;
-		orbit.m_Index = -1;
+		orbit.Dispose();
 	}
 
 	/// <summary>
@@ -54,6 +39,14 @@ public class Orbit : System.IDisposable {
 			m_Material = null;
 			m_Index = -1;
 		}
+	}
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	internal Orbit(OrbitRenderer material, int index) {
+		m_Material = material;
+		m_Index = index;
 	}
 
 	public bool valid {
