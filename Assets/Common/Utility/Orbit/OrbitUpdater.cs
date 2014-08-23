@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Swizzle;
 
-[RequireComponent(typeof(OrbitMaterial))]
+[RequireComponent(typeof(OrbitRenderer))]
 public class OrbitUpdater : MonoBehaviour {
-	public OrbitMaterial	m_OrbitMaterial;
+	public OrbitRenderer	m_OrbitMaterial;
 	public PlayerControl	m_Player;
 	public PlayerAround		m_PlayerAround;
 	public Bounds			m_CameraViewBounds;
@@ -14,7 +14,7 @@ public class OrbitUpdater : MonoBehaviour {
 	/// 生成
 	/// </summary>
 	void Awake() {
-		m_OrbitMaterial = GetComponent<OrbitMaterial>();
+		m_OrbitMaterial = GetComponent<OrbitRenderer>();
 	}
 	
 	/// <summary>

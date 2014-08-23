@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class OrbitInstance : MonoBehaviour {
 	static OrbitInstance s_Instance = null;
 	static GameObject s_MaterialPrefab = null;
-	Dictionary<int, OrbitMaterial> m_Material;
+	Dictionary<int, OrbitRenderer> m_Material;
 
 	/// <summary>
 	/// インスタンス作成
@@ -21,8 +21,8 @@ public class OrbitInstance : MonoBehaviour {
 	/// <summary>
 	/// マテリアル取得作成
 	/// </summary>
-	public OrbitMaterial GetOrbitMaterial(Material material) {
-		OrbitMaterial result = null;
+	public OrbitRenderer GetOrbitMaterial(Material material) {
+		OrbitRenderer result = null;
 		int hash = material.GetHashCode();
 		if (m_Material.ContainsKey(hash)) {
 			//既出なら
@@ -33,13 +33,13 @@ public class OrbitInstance : MonoBehaviour {
 			//新規作成
 			var game_object = (GameObject)Instantiate(s_MaterialPrefab);
 			game_object.transform.parent = this.transform;
-			result = game_object.GetComponent<OrbitMaterial>();
+			result = game_object.GetComponent<OrbitRenderer>();
 			result.m_Material = material;
 			m_Material.Add(hash, result);
 		}
 		return result;
 	}
-	public OrbitMaterial GetOrbitMaterial(string material_path, Texture texture) {
+	public OrbitRenderer GetOrbitMaterial(string material_path, Texture texture) {
 		Material material = (Material)Resources.Load(material_path);
 		material.mainTexture = texture;
 		return GetOrbitMaterial(material);
@@ -75,6 +75,6 @@ public class OrbitInstance : MonoBehaviour {
 	void Awake() {
 		s_Instance = this;
 		s_MaterialPrefab = (GameObject)Resources.Load("OrbitMaterial");
-		m_Material = new Dictionary<int,OrbitMaterial>();
+		m_Material = new Dictionary<int,OrbitRenderer>();
 	}
 }

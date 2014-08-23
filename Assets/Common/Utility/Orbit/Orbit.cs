@@ -3,7 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public class Orbit : System.IDisposable {
-	[SerializeField] private OrbitMaterial	m_Material = null;
+	[SerializeField] private OrbitRenderer	m_Material = null;
 	[SerializeField] private int			m_Index = -1;
 
 	/// <summary>
@@ -26,7 +26,7 @@ public class Orbit : System.IDisposable {
 	/// </summary>
 	/// <param name="sprite">設定するスプライト</param>
 	/// <returns>インスタンス</returns>
-	public static Orbit Instantiate(OrbitMaterial material, int index) {
+	public static Orbit Instantiate(OrbitRenderer material, int index) {
 		Orbit result = new Orbit();
 		result.m_Material = material;
 		result.m_Index = index;

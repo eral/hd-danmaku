@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
-public class OrbitMaterial : MonoBehaviour {
-				public OrbitObject[]	m_OrbitObjects;
-				public MeshFilter		m_MeshFilter;
-				public Mesh				m_Mesh;
-				public MeshRenderer		m_MeshRenderer;
-				public Material			m_Material;
+public class OrbitRenderer : MonoBehaviour {
+	public OrbitObject[]	m_OrbitObjects;
+	public MeshFilter		m_MeshFilter;
+	public Mesh				m_Mesh;
+	public MeshRenderer		m_MeshRenderer;
+	public Material			m_Material;
 	private Stack<int>	m_UnusedOrbitIndices;
 
 	/// <summary>
