@@ -9,16 +9,7 @@ public class OrbitMaterial : MonoBehaviour {
 				public Mesh				m_Mesh;
 				public MeshRenderer		m_MeshRenderer;
 				public Material			m_Material;
-	[EnumMask]	public Flag				m_Flag;
 	private Stack<int>	m_UnusedOrbitIndices;
-
-	[System.Flags]
-	public enum Flag {
-		FreezeDraw	= 1 << 0,	//更新無し
-		DirtyIndex	= 1 << 1,	//インデックス要更新
-		DirtyUv		= 1 << 2,	//UV要更新
-		DirtyColor	= 1 << 3,	//カラー要更新
-	}
 
 	/// <summary>
 	/// 使用していない軌道物体インデックスの取得
@@ -103,9 +94,7 @@ public class OrbitMaterial : MonoBehaviour {
 	/// 後更新
 	/// </summary>
 	void LateUpdate() {
-		if (0 == (Flag.FreezeDraw & m_Flag)) {
-			UpdateMesh();
-		}
+		UpdateMesh();
 	}
 	
 	/// <summary>

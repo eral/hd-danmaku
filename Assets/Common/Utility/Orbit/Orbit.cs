@@ -18,7 +18,6 @@ public class Orbit : System.IDisposable {
 		result.m_Index = material.AllocOrbitIndices();
 		result.m_Material = material;
 		result.m_Material.m_OrbitObjects[result.m_Index].Init(sprite);
-		result.m_Material.m_Flag |= OrbitMaterial.Flag.DirtyIndex | OrbitMaterial.Flag.DirtyUv | OrbitMaterial.Flag.DirtyColor;
 		return result;
 	}
 
@@ -103,17 +102,11 @@ public class Orbit : System.IDisposable {
 
 	public Color color {
 		get{return m_Material.m_OrbitObjects[m_Index].color;}
-		set{
-			m_Material.m_OrbitObjects[m_Index].color = value;
-			m_Material.m_Flag |= OrbitMaterial.Flag.DirtyColor;
-		}
+		set{m_Material.m_OrbitObjects[m_Index].color = value;}
 	}
 
 	public int order {
 		get{return m_Material.m_OrbitObjects[m_Index].order;}
-		set{
-			m_Material.m_OrbitObjects[m_Index].order = value;
-			m_Material.m_Flag |= OrbitMaterial.Flag.DirtyIndex;
-		}
+		set{m_Material.m_OrbitObjects[m_Index].order = value;}
 	}
 }
