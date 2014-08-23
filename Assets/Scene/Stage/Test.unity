@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0944552c311ff544a9b06f470dc4bb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CopySource: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be, type: 3}
+  m_OrbitMaterial: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c, type: 2}
   m_ShotSpeed: 50
   m_ShotCount: 10
   m_Color: {r: 0, g: 1, b: 0, a: 1}
@@ -642,6 +642,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be,
         type: 3}
+    - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
+      propertyPath: m_OrbitMaterial
+      value: 
+      objectReference: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
   m_RootGameObject: {fileID: 878639023}
@@ -1004,7 +1009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0944552c311ff544a9b06f470dc4bb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CopySource: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be, type: 3}
+  m_OrbitMaterial: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c, type: 2}
   m_ShotSpeed: 50
   m_ShotCount: 10
   m_Color: {r: 0, g: 0, b: 1, a: 1}
@@ -1052,7 +1057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0944552c311ff544a9b06f470dc4bb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CopySource: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be, type: 3}
+  m_OrbitMaterial: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c, type: 2}
   m_ShotSpeed: 50
   m_ShotCount: 10
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -1229,6 +1234,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be,
         type: 3}
+    - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
+      propertyPath: m_OrbitMaterial
+      value: 
+      objectReference: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
   m_RootGameObject: {fileID: 1131249503}
@@ -1398,6 +1408,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be,
         type: 3}
+    - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
+      propertyPath: m_OrbitMaterial
+      value: 
+      objectReference: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
   m_RootGameObject: {fileID: 347600632}
@@ -1487,6 +1502,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be,
         type: 3}
+    - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
+      propertyPath: m_OrbitMaterial
+      value: 
+      objectReference: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
   m_RootGameObject: {fileID: 1977727925}
@@ -1536,7 +1556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0944552c311ff544a9b06f470dc4bb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CopySource: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be, type: 3}
+  m_OrbitMaterial: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c, type: 2}
   m_ShotSpeed: 50
   m_ShotCount: 10
   m_Color: {r: 1, g: 1, b: 0, a: 1}
@@ -1727,7 +1747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0944552c311ff544a9b06f470dc4bb79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CopySource: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be, type: 3}
+  m_OrbitMaterial: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c, type: 2}
   m_ShotSpeed: 50
   m_ShotCount: 10
   m_Color: {r: 0, g: 1, b: 1, a: 1}
@@ -1830,6 +1850,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300008, guid: d2e5ff17ffc44854592b4ff6d9f771be,
         type: 3}
+    - target: {fileID: 11400000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
+      propertyPath: m_OrbitMaterial
+      value: 
+      objectReference: {fileID: 11400000, guid: dd6cff0e8423aa04384b2ca1be43777c,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b076b7ca28eda649bbc26f03611b0e1, type: 2}
   m_RootGameObject: {fileID: 1844592550}
