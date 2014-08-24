@@ -13,9 +13,9 @@ public class Orbit : System.IDisposable {
 	/// <returns>インスタンス</returns>
 	public static Orbit Instantiate(OrbitMaterial orbit_material) {
 		var orbit_instance = OrbitInstance.Instantiate();
-		var material = orbit_instance.GetOrbitMaterial(orbit_material.m_Material);
+		var material = orbit_instance.GetOrbitMaterial(orbit_material);
 		var index = material.AllocOrbitIndices();
-		material.m_OrbitObjects[index].Init(orbit_material.m_Sprite);
+		material.m_OrbitObjects[index].Init(orbit_material);
 		Orbit result = new Orbit(material, index);
 		return result;
 	}

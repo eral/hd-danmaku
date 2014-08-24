@@ -19,11 +19,13 @@ public class OrbitInstance : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// マテリアル取得作成
+	/// 軌道レンダラー取得作成
 	/// </summary>
-	public OrbitRenderer GetOrbitMaterial(Material material) {
+	/// <param name="orbit_material">軌道マテリアル</param>
+	/// <returns>軌道レンダラー</returns>
+	public OrbitRenderer GetOrbitMaterial(OrbitMaterial orbit_material) {
 		OrbitRenderer result = null;
-		int hash = material.GetHashCode();
+		int hash = orbit_material.m_Material.GetHashCode();
 		if (m_Material.ContainsKey(hash)) {
 			//既出なら
 			//それを返す
@@ -34,15 +36,10 @@ public class OrbitInstance : MonoBehaviour {
 			var game_object = (GameObject)Instantiate(s_MaterialPrefab);
 			game_object.transform.parent = this.transform;
 			result = game_object.GetComponent<OrbitRenderer>();
-			result.m_Material = material;
+			result.m_Material = orbit_material.m_Material;
 			m_Material.Add(hash, result);
 		}
 		return result;
-	}
-	public OrbitRenderer GetOrbitMaterial(string material_path, Texture texture) {
-		Material material = (Material)Resources.Load(material_path);
-		material.mainTexture = texture;
-		return GetOrbitMaterial(material);
 	}
 
 	/// <summary>
