@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(PlayerScore))]
 public class PlayerControl : MonoBehaviour {
-						public PlayerScore	m_Score;						//スコア
-	[PositiveNumber]	public float		m_MoveSpeed			= 200.0f;	//移動速度
-						public GameObject	m_ShotPrefab;					//ショット
-	[SmallInt]			public SmallInt		m_ShotTimer;					//ショット早度・カウンター
-	[PositiveNumber]	public float		m_ShotSpeed			= 2000.0f;	//ショット速度
-						public Vector3[]	m_ShotStartPosition	= new Vector3[0];
+						public PlayerScore		m_Score;							//スコア
+	[PositiveNumber]	public float			m_MoveSpeed				= 200.0f;	//移動速度
+						public OrbitMaterial	m_ShotOrbitMaterial;				//ショット
+	[SmallInt]			public SmallInt			m_ShotTimer;						//ショット早度・カウンター
+	[PositiveNumber]	public float			m_ShotSpeed				= 2000.0f;	//ショット速度
+						public Vector3[]		m_ShotStartPosition		= new Vector3[0];
 
 	private int	m_LayerFlagEnemy;
 	private int	m_LayerFlagEnemyShot;
@@ -29,7 +29,7 @@ public class PlayerControl : MonoBehaviour {
 	/// 初回更新前
 	/// </summary>
 	void Start() {
-		if (null == m_ShotPrefab) {
+		if (null == m_ShotOrbitMaterial) {
 			enabled = false;
 			return;
 		}
@@ -138,11 +138,10 @@ public class PlayerControl : MonoBehaviour {
 	/// </summary>
 	private void Shot_() {
 		foreach (var start_pos in m_ShotStartPosition) {
-			GameObject shot = (GameObject)Instantiate(m_ShotPrefab
-													, transform.position + start_pos
-													, Quaternion.identity
-													);
-			shot.rigidbody2D.velocity = new Vector2(0.0f, m_ShotSpeed);
+			var shot = Orbit.Instantiate(m_ShotOrbitMaterial);
+			shot.position = transform.position + start_pos;
+			shot.rotation = Quaternion.identity;
+			shot.velocity_position = new Vector2(0.0f, m_ShotSpeed);
 		}
 	}
 }
