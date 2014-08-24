@@ -23,7 +23,7 @@ public class OrbitInstance : MonoBehaviour {
 	/// </summary>
 	/// <param name="orbit_material">軌道マテリアル</param>
 	/// <returns>軌道レンダラー</returns>
-	public OrbitRenderer GetOrbitMaterial(OrbitMaterial orbit_material) {
+	public OrbitRenderer GetRenderer(OrbitMaterial orbit_material) {
 		OrbitRenderer result = null;
 		int hash = orbit_material.m_Material.GetHashCode();
 		if (m_Material.ContainsKey(hash)) {

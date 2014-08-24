@@ -13,10 +13,10 @@ public class Orbit : System.IDisposable {
 	/// <returns>インスタンス</returns>
 	public static Orbit Instantiate(OrbitMaterial orbit_material) {
 		var orbit_instance = OrbitInstance.Instantiate();
-		var material = orbit_instance.GetOrbitMaterial(orbit_material);
-		var index = material.AllocOrbitIndices();
-		material.m_OrbitObjects[index].Init(orbit_material);
-		Orbit result = new Orbit(material, index);
+		var renderer = orbit_instance.GetRenderer(orbit_material);
+		var index = renderer.AllocOrbitIndices();
+		renderer.m_OrbitObjects[index].Init(orbit_material);
+		Orbit result = new Orbit(renderer, index);
 		return result;
 	}
 
