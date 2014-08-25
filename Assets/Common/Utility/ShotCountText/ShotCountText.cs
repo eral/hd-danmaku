@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 
-[RequireComponent(typeof(GUIText))]
+[RequireComponent(typeof(UnityEngine.UI.Text))]
 public class ShotCountText : MonoBehaviour {
-	public GUIText		m_Target;
-	public LayerMask	m_LayerTarget;
-	public string		m_Format = "{0: ###0}<size=10>shots</size>";
+	public UnityEngine.UI.Text	m_Target;
+	public LayerMask			m_LayerTarget;
+	public string				m_Format = "{0: ###0}<size=10>shots</size>";
 	
 	/// <summary>
 	/// 初回更新前
 	/// </summary>
 	void Start () {
 		if (!m_Target) {
-			m_Target = GetComponent<GUIText>();
+			m_Target = GetComponent<UnityEngine.UI.Text>();
 		}
 	}
 	
