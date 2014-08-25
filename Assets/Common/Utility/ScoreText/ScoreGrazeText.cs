@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(GUIText))]
+[RequireComponent(typeof(UnityEngine.UI.Text))]
 public class ScoreGrazeText : MonoBehaviour {
-	public GUIText		m_Target;
-	public PlayerScore	m_PlayerScore;
-	public string		m_Format = "{0: #########0}<size=10>graze</size>";
+	public UnityEngine.UI.Text	m_Target;
+	public PlayerScore			m_PlayerScore;
+	public string				m_Format = "{0: #########0}<size=10>graze</size>";
 	
 	/// <summary>
 	/// 初回更新前
 	/// </summary>
 	void Start () {
 		if (!m_Target) {
-			m_Target = GetComponent<GUIText>();
+			m_Target = GetComponent<UnityEngine.UI.Text>();
 		}
 		if (!m_PlayerScore) {
 			var player_game_object = GameObject.FindGameObjectWithTag("Player");
