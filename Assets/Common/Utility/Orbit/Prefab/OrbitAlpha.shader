@@ -2,6 +2,7 @@
 {
 	Properties {
 		_MainTex ("Sprite Texture", 2D) = "white" {}
+		[MaterialToggle] RequireOrderSort ("Require order sort", Float) = 1
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 	}
 
