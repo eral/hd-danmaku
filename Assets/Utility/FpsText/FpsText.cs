@@ -8,6 +8,9 @@ public class FpsText : MonoBehaviour {
 	public string	m_Format = "{0: 00.00}<size=10>fps</size>";
 	public float[]	m_Times;
 	public int		m_Current;
+	public bool		m_RealtimeBase = false;
+
+	private float	m_LastRealtime;
 
 	/// <summary>
 	/// 初回更新前
@@ -23,13 +26,20 @@ public class FpsText : MonoBehaviour {
 			m_Times[i] = 1.0f;
 		}
 		m_Current = 0;
+		m_LastRealtime = Time.realtimeSinceStartup;
 	}
 	
 	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update () {
-		m_Times[m_Current++] = Time.deltaTime;
+		if (m_RealtimeBase) {
+			var realtime = Time.realtimeSinceStartup;
+			m_Times[m_Current++] = realtime - m_LastRealtime;
+			m_LastRealtime = realtime;
+		} else {
+			m_Times[m_Current++] = Time.deltaTime;
+		}
 		if (m_Times.Length <= m_Current) {
 			m_Current = 0;
 		}
