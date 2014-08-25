@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 
-[RequireComponent(typeof(GUIText))]
+[RequireComponent(typeof(UnityEngine.UI.Text))]
 public class EnemyShotTrashCountText : MonoBehaviour {
-	public GUIText		m_Target;
-	public LayerMask	m_LayerTarget;
-	public string		m_Format = "{0: ###0}<size=10>trashes</size>";
+	public UnityEngine.UI.Text	m_Target;
+	public LayerMask			m_LayerTarget;
+	public string				m_Format = "{0: ###0}<size=10>trashes</size>";
 	
 	/// <summary>
 	/// 初回更新前
 	/// </summary>
 	void Start () {
 		if (!m_Target) {
-			m_Target = GetComponent<GUIText>();
+			m_Target = GetComponent<UnityEngine.UI.Text>();
 		}
 	}
 	
