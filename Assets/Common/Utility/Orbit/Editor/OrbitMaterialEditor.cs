@@ -90,7 +90,6 @@ public class OrbitMaterialEditor : Editor {
 		col_t.SetPixel(0, 0, color);
 		col_t.Apply();
 		col_s.normal.background = col_t;
-		var old_gui_color = GUI.color;
 
 		Rect draw_r = r;
 		draw_r.width = 1.0f;
