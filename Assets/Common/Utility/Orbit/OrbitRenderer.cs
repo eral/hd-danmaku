@@ -103,10 +103,10 @@ public class OrbitRenderer : MonoBehaviour {
 	/// メッシュ更新
 	/// </summary>
 	void UpdateMesh() {
-		IEnumerator<int> draw_order_inverse;
+		int[] draw_order_inverse;
 		if (m_IgnoreOrderSort) {
 			//オーダーソートしない
-			draw_order_inverse = Enumerable.Range(0, m_OrbitObjects.Length).GetEnumerator();
+			draw_order_inverse = Enumerable.Range(0, m_OrbitObjects.Length).Select(x=>x*4).ToArray();
 		} else {
 			//オーダーソートする
 			var draw_order_array = Enumerable.Range(0, m_OrbitObjects.Length).ToArray();
@@ -120,19 +120,17 @@ public class OrbitRenderer : MonoBehaviour {
 					return m_OrbitObjects[x].initorder - m_OrbitObjects[y].initorder;
 				}
 			});
-			var draw_order_inverse_array = new int[draw_order_array.Length];
+			draw_order_inverse = new int[draw_order_array.Length];
 			for (int i = 0, i_max = draw_order_array.Length; i < i_max; ++i) {
-				draw_order_inverse_array[draw_order_array[i]] = i;
+				draw_order_inverse[draw_order_array[i]] = i * 4;
 			}
-			draw_order_inverse = ((IEnumerable<int>)draw_order_inverse_array).GetEnumerator();
 		}
 
 		var vertices_length = m_OrbitObjects.Length * 4;
 		var tangents = new Vector4[vertices_length];
 		for (int i = 0, i_max = m_OrbitObjects.Length; i < i_max; ++i) {
 			//位置・UV・カラー更新
-			draw_order_inverse.MoveNext();
-			int dst = draw_order_inverse.Current * 4;
+			int dst = draw_order_inverse[i];
 
 			var color = m_OrbitObjects[i].color;
 			var tangent = new Vector4(0.0f
