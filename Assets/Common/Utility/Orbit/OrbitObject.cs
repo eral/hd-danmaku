@@ -24,6 +24,7 @@ public struct OrbitObject {
 	public enum Flags {
 		Valid			= 1<<0,	//有効オブジェクト
 		NonAffine		= 1<<1,	//無変形(回転・拡大縮小無し))
+		PlayerHoming	= 1<<2,	//プレイヤーホーミング
 	}
 
 	[SerializeField][EnumMask]	private	Flags		system_flag;	//システムフラグ
@@ -83,6 +84,7 @@ public struct OrbitObject {
 
 	public bool			valid{get{return 0 != (Flags.Valid & system_flag);}}
 	public bool			move_only{get{return 0 != (Flags.NonAffine & system_flag);} set{if (value) {system_flag |= Flags.NonAffine;} else {system_flag &= ~Flags.NonAffine;}}}
+	public bool			player_homing{get{return 0 != (Flags.PlayerHoming & system_flag);} set{if (value) {system_flag |= Flags.PlayerHoming;} else {system_flag &= ~Flags.PlayerHoming;}}}
 	public Vector3		position{get{return transform.position;} set{transform.position = value;}}
 	public Quaternion	rotation{get{return transform.rotation;} set{transform.rotation = value;}}
 	public Vector3		scale{get{return transform.scale;} set{transform.scale = value;}}

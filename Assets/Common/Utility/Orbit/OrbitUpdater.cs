@@ -56,10 +56,11 @@ public class OrbitUpdater : MonoBehaviour {
 	/// 更新
 	/// </summary>
 	void Update() {
+		var player_position = m_Player.transform.position;
 		for (int i = 0, i_max = m_OrbitRenderer.m_OrbitObjects.Length; i < i_max; ++i) {
 			if (m_OrbitRenderer.m_OrbitObjects[i].valid) {
-				OrbitalCalculation(ref m_OrbitRenderer.m_OrbitObjects[i], Time.deltaTime);
-
+				OrbitalCalculation(ref m_OrbitRenderer.m_OrbitObjects[i], Time.deltaTime, player_position);
+				
 				if (IsInvisible(m_OrbitRenderer.m_OrbitObjects[i])) {
 					//画面外なら
 					//破棄
@@ -88,11 +89,22 @@ public class OrbitUpdater : MonoBehaviour {
 	/// 軌道計算
 	/// </summary>
 	/// <param name="srces">軌道物体</param>
-	private static void OrbitalCalculation(ref OrbitObject src, float delta_time) {
-		src.transform.position += src.velocity_position * delta_time;
-		if (!src.move_only) {
-			src.transform.rotation *= Quaternion.Slerp(Quaternion.identity, src.velocity_rotation, delta_time);
-			src.transform.scale = Vector3.Scale(src.transform.scale, Vector3.Lerp(Vector3.one, src.velocity_scale, delta_time));
+	private static void OrbitalCalculation(ref OrbitObject src, float delta_time, Vector3 player_position) {
+		if (src.player_homing) {
+			//ホーミング
+			var velocity = (player_position - src.transform.position) * src.velocity_position.magnitude * delta_time;
+			src.transform.position += velocity;
+			if (!src.move_only) {
+				src.transform.rotation = Quaternion.FromToRotation(Vector3.up, velocity);
+				src.transform.scale = Vector3.Scale(src.transform.scale, Vector3.Lerp(Vector3.one, src.velocity_scale, delta_time));
+			}
+		} else {
+			//直線
+			src.transform.position += src.velocity_position * delta_time;
+			if (!src.move_only) {
+				src.transform.rotation *= Quaternion.Slerp(Quaternion.identity, src.velocity_rotation, delta_time);
+				src.transform.scale = Vector3.Scale(src.transform.scale, Vector3.Lerp(Vector3.one, src.velocity_scale, delta_time));
+			}
 		}
 	}
 
