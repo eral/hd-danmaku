@@ -90,8 +90,10 @@ public class OrbitUpdater : MonoBehaviour {
 	/// <param name="srces">軌道物体</param>
 	private static void OrbitalCalculation(ref OrbitObject src, float delta_time) {
 		src.transform.position += src.velocity_position * delta_time;
-		src.transform.rotation *= Quaternion.Slerp(Quaternion.identity, src.velocity_rotation, delta_time);
-		src.transform.scale = Vector3.Scale(src.transform.scale, Vector3.Lerp(Vector3.one, src.velocity_scale, delta_time));
+		if (!src.move_only) {
+			src.transform.rotation *= Quaternion.Slerp(Quaternion.identity, src.velocity_rotation, delta_time);
+			src.transform.scale = Vector3.Scale(src.transform.scale, Vector3.Lerp(Vector3.one, src.velocity_scale, delta_time));
+		}
 	}
 
 	/// <summary>

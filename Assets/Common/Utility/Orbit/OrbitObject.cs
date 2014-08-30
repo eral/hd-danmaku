@@ -20,16 +20,22 @@ public struct OrbitObject {
 	public	int				order;				//描画順(小さい方が先)
 	public	int				initorder;			//初期化順
 
-	public	OrbitMaterial	material;			//軌道マテリアル
-	private	Vector3[]		vertices_base;
-	private	Vector2[]		uvs_base;
+	[System.Flags]
+	public enum Flags {
+		Valid			= 1<<0,	//有効オブジェクト
+		NonAffine		= 1<<1,	//無変形(回転・拡大縮小無し))
+	}
+
+	[SerializeField][EnumMask]	private	Flags		system_flag;	//システムフラグ
+								private	Vector3[]	vertices_base;	//頂点キャッシュ
+								private	Vector2[]	uvs_base;		//UVキャッシュ
 
 	static int s_initorder = int.MinValue;
 
 	public void Init(OrbitMaterial m = null) {
 		if (null != m) {
 			user_flag			= 0;
-			material			= m;
+			system_flag			= Flags.Valid | ((0!=(OrbitMaterial.Flags.NonAffine & m.m_Flag))? Flags.NonAffine: 0);
 			transform.position	= Vector3.zero;
 			transform.rotation	= Quaternion.identity;
 			transform.scale		= Vector3.one;
@@ -69,13 +75,14 @@ public struct OrbitObject {
 				
 			}
 		} else {
-			material			= m;
+			system_flag			= (Flags)0;
 			transform.scale		= Vector3.zero;
 			initorder			= ++s_initorder;
 		}
 	}
 
-	public bool			valid{get{return null!=material;}}
+	public bool			valid{get{return 0 != (Flags.Valid & system_flag);}}
+	public bool			move_only{get{return 0 != (Flags.NonAffine & system_flag);} set{if (value) {system_flag |= Flags.NonAffine;} else {system_flag &= ~Flags.NonAffine;}}}
 	public Vector3		position{get{return transform.position;} set{transform.position = value;}}
 	public Quaternion	rotation{get{return transform.rotation;} set{transform.rotation = value;}}
 	public Vector3		scale{get{return transform.scale;} set{transform.scale = value;}}
@@ -85,20 +92,26 @@ public struct OrbitObject {
 
 	public IEnumerable<Vector3> vertices{get{
 		IEnumerable<Vector3> result = null;
-		if (null != material) {
+		if (valid) {
 			var that = this;
-			result = vertices_base.Select(x=>(that.transform.rotation * Vector3.Scale(x, that.transform.scale) + that.transform.position));
+			if (move_only) {
+				//移動のみ
+				result = vertices_base.Select(x=>x + that.transform.position);
+			} else {
+				//全トランスフォーム有効
+				result = vertices_base.Select(x=>(that.transform.rotation * Vector3.Scale(x, that.transform.scale) + that.transform.position));
+			}
 		} else {
-			 result = Enumerable.Repeat(Vector3.zero, 4);
+			result = Enumerable.Repeat(Vector3.zero, 4);
 		}
 		return result;
 	}}
 	public IEnumerable<Vector2> uvs{get{
 		IEnumerable<Vector2> result = null;
-		if (null != material) {
+		if (valid) {
 			result = uvs_base;
 		} else {
-			 result = Enumerable.Repeat(Vector2.zero, 4);
+			result = Enumerable.Repeat(Vector2.zero, 4);
 		}
 		return result;
 	}}
