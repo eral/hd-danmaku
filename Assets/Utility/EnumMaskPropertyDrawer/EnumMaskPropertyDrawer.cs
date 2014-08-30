@@ -14,17 +14,44 @@ public class EnumMaskPropertyDrawer : PropertyDrawer {
 	
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 		if (SerializedPropertyType.Enum == property.propertyType) {
-			var parent_object = property.serializedObject.targetObject;
-			var current = parent_object.GetType().GetField(property.propertyPath).GetValue(parent_object);
-			EditorGUI.BeginChangeCheck();
-			var value = EditorGUI.EnumMaskField(position, label, (System.Enum)current);
-			if (EditorGUI.EndChangeCheck()) {
-				current = value;
-				parent_object.GetType().GetField(property.propertyPath).SetValue(parent_object, current);
+			object current = GetCurrent(property);
+			if (null != current) {
+				EditorGUI.BeginChangeCheck();
+				var value = EditorGUI.EnumMaskField(position, label, (System.Enum)current);
+				if (EditorGUI.EndChangeCheck()) {
+					property.intValue = System.Convert.ToInt32(value);
+				}
 			}
 		} else {
 			EditorGUI.LabelField(position, label, new GUIContent("This type has not supported."));
 		}
+	}
+
+	private static object GetCurrent(SerializedProperty property) {
+		object result = property.serializedObject.targetObject;
+		var property_names = property.propertyPath.Replace(".Array.data", ".").Split('.');
+		foreach (var property_name in property_names) {
+			var parent = result;
+			var indexer_start = property_name.IndexOf('[');
+			if (-1 == indexer_start) {
+				var binding_flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
+				result = parent.GetType().GetField(property_name, binding_flags).GetValue(parent);
+			} else if (parent.GetType().IsArray) {
+				var indexer_end = property_name.IndexOf(']');
+				var index_string = property_name.Substring(indexer_start + 1, indexer_end - indexer_start - 1);
+				var index = int.Parse(index_string);
+				var array = (System.Array)parent;
+				if (index < array.Length) {
+					result = array.GetValue(index);
+				} else {
+					result = null;
+					break;
+				}
+			} else {
+				throw new System.MissingFieldException();
+			}
+		}
+		return result;
 	}
 }
 #endif
