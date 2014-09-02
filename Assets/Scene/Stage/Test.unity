@@ -126,6 +126,18 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: c877118828e9a9c44a1012cfa9d4c82c,
         type: 2}
+    - target: {fileID: 11400000, guid: ddf16b0debaa7844183bb7cddcd6de7a, type: 2}
+      propertyPath: m_BombEffect
+      value: 
+      objectReference: {fileID: 100000, guid: 54cc59fae51971a499e1d66156bc8075, type: 2}
+    - target: {fileID: 11400002, guid: ddf16b0debaa7844183bb7cddcd6de7a, type: 2}
+      propertyPath: m_Bomb
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ddf16b0debaa7844183bb7cddcd6de7a, type: 2}
+      propertyPath: m_BombPrefab
+      value: 
+      objectReference: {fileID: 100000, guid: 54cc59fae51971a499e1d66156bc8075, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ddf16b0debaa7844183bb7cddcd6de7a, type: 2}
   m_RootGameObject: {fileID: 123009333}
@@ -234,6 +246,8 @@ MonoBehaviour:
     type: 2}
   m_ShotSpeed: 2000
   m_ShotStartPosition: []
+  m_BombPrefab: {fileID: 100000, guid: 54cc59fae51971a499e1d66156bc8075, type: 2}
+  m_BombControl: {fileID: 0}
 --- !u!50 &123009337
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -276,7 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Graze: 0
   m_ShotPower: 0
-  m_Bomb: 0
+  m_Bomb: 300
 --- !u!1 &173301370
 GameObject:
   m_ObjectHideFlags: 0
