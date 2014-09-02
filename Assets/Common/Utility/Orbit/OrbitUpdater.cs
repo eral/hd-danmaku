@@ -70,9 +70,9 @@ public class OrbitUpdater : MonoBehaviour {
 					//周辺接触なら
 					var orbit = new Orbit(m_OrbitRenderer, i);
 					//かすり処理
-					if (0 == (m_OrbitRenderer.m_OrbitObjects[i].user_flag & 0x01)) {
+					if (!m_OrbitRenderer.m_OrbitObjects[i].grazed) {
 						m_PlayerAround.OnOrbitEnter(orbit);
-						m_OrbitRenderer.m_OrbitObjects[i].user_flag |= 0x01;
+						m_OrbitRenderer.m_OrbitObjects[i].grazed = true;
 					}
 
 					if (IsEnterOntoPlayer(m_OrbitRenderer.m_OrbitObjects[i])) {
@@ -92,8 +92,16 @@ public class OrbitUpdater : MonoBehaviour {
 	private static void OrbitalCalculation(ref OrbitObject src, float delta_time, Vector3 player_position) {
 		if (src.player_homing) {
 			//ホーミング
-			var velocity = (player_position - src.transform.position) * src.velocity_position.magnitude * delta_time;
-			src.transform.position += velocity;
+			var velocity = Vector3.Normalize(player_position - src.transform.position) * src.velocity_position.magnitude * delta_time;
+			var sqr_distance = (src.transform.position - player_position).sqrMagnitude;
+			if (velocity.sqrMagnitude < sqr_distance) {
+				//貫通しない
+				src.transform.position += velocity;
+			} else {
+				//貫通する
+				//プレイヤー位置へ
+				src.transform.position = player_position;
+			}
 			if (!src.move_only) {
 				src.transform.rotation = Quaternion.FromToRotation(Vector3.up, velocity);
 				src.transform.scale = Vector3.Scale(src.transform.scale, Vector3.Lerp(Vector3.one, src.velocity_scale, delta_time));

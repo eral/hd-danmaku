@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class OrbitInstance : MonoBehaviour {
 	static OrbitInstance s_Instance = null;
@@ -39,6 +40,15 @@ public class OrbitInstance : MonoBehaviour {
 			result.m_Material = orbit_material.m_Material;
 			m_Material.Add(hash, result);
 		}
+		return result;
+	}
+
+	/// <summary>
+	/// 軌道レンダラーリスト取得作成
+	/// </summary>
+	/// <returns>軌道レンダラーリスト</returns>
+	public IEnumerable<OrbitRenderer> GetRendererList() {
+		IEnumerable<OrbitRenderer> result = m_Material.Select(x=>x.Value);
 		return result;
 	}
 

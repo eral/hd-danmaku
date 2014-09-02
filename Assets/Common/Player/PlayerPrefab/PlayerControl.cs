@@ -9,7 +9,10 @@ public class PlayerControl : MonoBehaviour {
 	[SmallInt]			public SmallInt			m_ShotTimer;						//ショット早度・カウンター
 	[PositiveNumber]	public float			m_ShotSpeed				= 2000.0f;	//ショット速度
 						public Vector3[]		m_ShotStartPosition		= new Vector3[0];
+						public GameObject		m_BombPrefab;						//ボム用プレファブ
+						public BombControl		m_BombControl;						//ボム
 
+	private	Transform m_Transform;
 	private int	m_LayerFlagEnemy;
 	private int	m_LayerFlagEnemyShot;
 	private int	m_LayerFlagItem;
@@ -18,6 +21,7 @@ public class PlayerControl : MonoBehaviour {
 	/// 生成
 	/// </summary>
 	void Awake() {
+		m_Transform = transform;
 		m_LayerFlagEnemy		= LayerMask.NameToLayer("Enemy");
 		m_LayerFlagEnemyShot	= LayerMask.NameToLayer("EnemyShot");
 		m_LayerFlagItem			= LayerMask.NameToLayer("Item");
@@ -49,6 +53,7 @@ public class PlayerControl : MonoBehaviour {
 	void Update() {
 		Move_();
 		ShotUpdate_();
+		BombUpdate_();
 	}
 	
 	/// <summary>
@@ -109,8 +114,8 @@ public class PlayerControl : MonoBehaviour {
 		float x = Input.GetAxisRaw("X");
 		float y = Input.GetAxisRaw("Y");
 		if ((0.0f != x) || (0.0f != y)) {
-			Vector3 pos = transform.position;
-			transform.position = new Vector3(pos.x + x * m_MoveSpeed * Time.deltaTime
+			Vector3 pos = m_Transform.position;
+			m_Transform.position = new Vector3(pos.x + x * m_MoveSpeed * Time.deltaTime
 											, pos.y + y * m_MoveSpeed * Time.deltaTime
 											, pos.z
 											);
@@ -139,9 +144,38 @@ public class PlayerControl : MonoBehaviour {
 	private void Shot_() {
 		foreach (var start_pos in m_ShotStartPosition) {
 			var shot = Orbit.Instantiate(m_ShotOrbitMaterial);
-			shot.position = transform.position + start_pos;
+			shot.position = m_Transform.position + start_pos;
 			shot.rotation = Quaternion.identity;
 			shot.velocity_position = new Vector2(0.0f, m_ShotSpeed);
 		}
+	}
+	
+	/// <summary>
+	/// ボム更新
+	/// </summary>
+	private void BombUpdate_() {
+		if (Input.GetButton("Bomb")) {
+			if ((0 < m_Score.m_Bomb) && (null == m_BombControl)) {
+				--m_Score.m_Bomb;
+				Bomb_();
+			}
+		}
+	}
+	
+	/// <summary>
+	/// ボム
+	/// </summary>
+	private void Bomb_() {
+		var bomb = (GameObject)Instantiate(m_BombPrefab, m_Transform.position, m_Transform.rotation);
+		bomb.transform.parent = m_Transform;
+		m_BombControl = bomb.GetComponent<BombControl>();
+		m_BombControl.m_PlayerControl = this;
+	}
+	
+	/// <summary>
+	/// ボム終了コールバック
+	/// </summary>
+	public void BombEndCb() {
+		m_BombControl = null;
 	}
 }

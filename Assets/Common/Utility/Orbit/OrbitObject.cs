@@ -11,32 +11,33 @@ public struct OrbitTransform {
 
 [System.Serializable]
 public struct OrbitObject {
-	public	int				user_flag;			//フラグ
-	public	OrbitTransform	transform;			//トランスフォーム
-	public	OrbitTransform	velocity;			//速度
-	public	Bounds			draw_bounds;		//描画範囲
-	public	Bounds			collider_bounds;	//当たり判定
-	public	Color			color;				//色
-	public	int				order;				//描画順(小さい方が先)
-	public	int				initorder;			//初期化順
+	[EnumMask]	public	Flags				flag;				//フラグ
+				public	OrbitMaterial.Tag	tag;				//タグ
+				public	OrbitTransform		transform;			//トランスフォーム
+				public	OrbitTransform		velocity;			//速度
+				public	Bounds				draw_bounds;		//描画範囲
+				public	Bounds				collider_bounds;	//当たり判定
+				public	Color				color;				//色
+				public	int					order;				//描画順(小さい方が先)
+				public	int					initorder;			//初期化順
 
 	[System.Flags]
 	public enum Flags {
 		Valid			= 1<<0,	//有効オブジェクト
 		NonAffine		= 1<<1,	//無変形(回転・拡大縮小無し))
 		PlayerHoming	= 1<<2,	//プレイヤーホーミング
+		Grazed			= 1<<3,	//かすり済み
 	}
 
-	[SerializeField][EnumMask]	private	Flags		system_flag;	//システムフラグ
-								private	Vector3[]	vertices_base;	//頂点キャッシュ
-								private	Vector2[]	uvs_base;		//UVキャッシュ
+	private	Vector3[]	vertices_base;	//頂点キャッシュ
+	private	Vector2[]	uvs_base;		//UVキャッシュ
 
 	static int s_initorder = int.MinValue;
 
 	public void Init(OrbitMaterial m = null) {
 		if (null != m) {
-			user_flag			= 0;
-			system_flag			= Flags.Valid | ((0!=(OrbitMaterial.Flags.NonAffine & m.m_Flag))? Flags.NonAffine: 0);
+			flag				= Flags.Valid | ((0!=(OrbitMaterial.Flags.NonAffine & m.m_Flag))? Flags.NonAffine: 0);
+			tag					= m.m_Tag;
 			transform.position	= Vector3.zero;
 			transform.rotation	= Quaternion.identity;
 			transform.scale		= Vector3.one;
@@ -76,15 +77,17 @@ public struct OrbitObject {
 				
 			}
 		} else {
-			system_flag			= (Flags)0;
+			flag				= (Flags)0;
+			tag					= 0;
 			transform.scale		= Vector3.zero;
 			initorder			= ++s_initorder;
 		}
 	}
 
-	public bool			valid{get{return 0 != (Flags.Valid & system_flag);}}
-	public bool			move_only{get{return 0 != (Flags.NonAffine & system_flag);} set{if (value) {system_flag |= Flags.NonAffine;} else {system_flag &= ~Flags.NonAffine;}}}
-	public bool			player_homing{get{return 0 != (Flags.PlayerHoming & system_flag);} set{if (value) {system_flag |= Flags.PlayerHoming;} else {system_flag &= ~Flags.PlayerHoming;}}}
+	public bool			valid{get{return 0 != (Flags.Valid & flag);}}
+	public bool			move_only{get{return 0 != (Flags.NonAffine & flag);} set{if (value) {flag |= Flags.NonAffine;} else {flag &= ~Flags.NonAffine;}}}
+	public bool			player_homing{get{return 0 != (Flags.PlayerHoming & flag);} set{if (value) {flag |= Flags.PlayerHoming;} else {flag &= ~Flags.PlayerHoming;}}}
+	public bool			grazed{get{return 0 != (Flags.Grazed & flag);} set{if (value) {flag |= Flags.Grazed;} else {flag &= ~Flags.Grazed;}}}
 	public Vector3		position{get{return transform.position;} set{transform.position = value;}}
 	public Quaternion	rotation{get{return transform.rotation;} set{transform.rotation = value;}}
 	public Vector3		scale{get{return transform.scale;} set{transform.scale = value;}}
