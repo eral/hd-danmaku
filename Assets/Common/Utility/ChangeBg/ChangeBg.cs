@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UI = UnityEngine.UI;
 
 public class ChangeBg : MonoBehaviour {
 	public GameObject[]	m_GameObjectList;
 	public string		m_Format = "BgType: {0}";
+	public UI.Text		m_LabelObject;
 	
 	private int		m_Current = 0;
 	
@@ -16,20 +18,12 @@ public class ChangeBg : MonoBehaviour {
 	}
 	
 	/// <summary>
-	/// GUI描画
+	/// 切り替え
 	/// </summary>
-	void OnGUI () {
-		var c_scale = new Vector2(Screen.width / 1280.0f, Screen.height / 720.0f);
-		var rect = new Rect(16.0f * c_scale.x, (16.0f + 40.0f * 0) * c_scale.y, 200.0f * c_scale.x, 32.0f * c_scale.y);
-		var label = ((0 < m_GameObjectList.Length)
-						? new GUIContent(string.Format(m_Format, m_GameObjectList[m_Current].name))
-						: null
-					);
-		if (GUI.Button(rect, label)) {
-			if (0 < m_GameObjectList.Length) {
-				int index = (m_Current + 1) % m_GameObjectList.Length;
-				ApplyActive_(index);
-			}
+	public void Change () {
+		if (0 < m_GameObjectList.Length) {
+			int index = (m_Current + 1) % m_GameObjectList.Length;
+			ApplyActive_(index);
 		}
 	}
 	
@@ -46,5 +40,13 @@ public class ChangeBg : MonoBehaviour {
 			}
 		}
 		m_Current = index;
+
+		if (m_LabelObject) {
+			var label = ((0 < m_GameObjectList.Length)
+							? string.Format(m_Format, m_GameObjectList[m_Current].name)
+							: null
+						);
+			m_LabelObject.text = label;
+		}
 	}
 }
