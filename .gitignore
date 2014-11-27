@@ -1,6 +1,7 @@
 #Unity
 /Library
 /Temp
+/*.booproj
 /*.csproj
 /*.pidb
 /*.sln
@@ -8,6 +9,8 @@
 /*.userprefs
 
 #Visual Studio Tools for Unity
+/Assets/UnityVS/
+/Assets/UnityVS.meta
 /obj
 /*.suo
 /*.sln.DotSettings
