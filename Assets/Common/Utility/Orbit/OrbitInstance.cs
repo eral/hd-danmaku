@@ -5,7 +5,7 @@ using System.Linq;
 public class OrbitInstance : MonoBehaviour {
 	static OrbitInstance s_Instance = null;
 	static GameObject s_MaterialPrefab = null;
-	Dictionary<int, OrbitRenderer> m_Material;
+	Dictionary<int, List<OrbitRenderer>> m_Material;
 
 	/// <summary>
 	/// インスタンス作成
@@ -27,18 +27,33 @@ public class OrbitInstance : MonoBehaviour {
 	public OrbitRenderer GetRenderer(OrbitMaterial orbit_material) {
 		OrbitRenderer result = null;
 		int hash = orbit_material.m_Material.GetHashCode();
+		List<OrbitRenderer> renderers = null;
 		if (m_Material.ContainsKey(hash)) {
 			//既出なら
+			renderers = m_Material[hash];
 			//それを返す
-			result = m_Material[hash];
-		} else {
+			result = renderers.FirstOrDefault(x=>0 < x.GetTrashCount());
+		}
+		if (null == result) {
 			//無ければ
 			//新規作成
 			var game_object = (GameObject)Instantiate(s_MaterialPrefab);
 			game_object.transform.parent = this.transform;
 			result = game_object.GetComponent<OrbitRenderer>();
 			result.m_Material = orbit_material.m_Material;
-			m_Material.Add(hash, result);
+			if (null != renderers) {
+				renderers.Add(result);
+			} else {
+				renderers = new List<OrbitRenderer>(new[]{result});
+				m_Material.Add(hash, renderers);
+			}
+			result.m_DestoryCb = ()=>{
+				//レンダラーが消失した時は管理マテリアルから消去
+				renderers.Remove(result);
+				if (0 == renderers.Count) {
+					m_Material.Remove(hash);
+				}
+			};
 		}
 		return result;
 	}
@@ -48,7 +63,7 @@ public class OrbitInstance : MonoBehaviour {
 	/// </summary>
 	/// <returns>軌道レンダラーリスト</returns>
 	public IEnumerable<OrbitRenderer> GetRendererList() {
-		IEnumerable<OrbitRenderer> result = m_Material.Select(x=>x.Value);
+		IEnumerable<OrbitRenderer> result = m_Material.SelectMany(x=>x.Value);
 		return result;
 	}
 
@@ -57,10 +72,9 @@ public class OrbitInstance : MonoBehaviour {
 	/// </summary>
 	/// <returns></returns>
 	public int GetOrbitCount() {
-		int result = 0;
-		foreach (var material in m_Material) {
-			result += material.Value.GetOrbitCount();
-		}
+		int result = m_Material.SelectMany(x=>x.Value)
+								.Select(x=>x.GetOrbitCount())
+								.Sum();
 		return result;
 	}
 
@@ -69,10 +83,9 @@ public class OrbitInstance : MonoBehaviour {
 	/// </summary>
 	/// <returns></returns>
 	public int GetTrashCount() {
-		int result = 0;
-		foreach (var material in m_Material) {
-			result += material.Value.GetTrashCount();
-		}
+		int result = m_Material.SelectMany(x=>x.Value)
+								.Select(x=>x.GetTrashCount())
+								.Sum();
 		return result;
 	}
 
@@ -82,6 +95,6 @@ public class OrbitInstance : MonoBehaviour {
 	void Awake() {
 		s_Instance = this;
 		s_MaterialPrefab = (GameObject)Resources.Load("OrbitMaterial");
-		m_Material = new Dictionary<int,OrbitRenderer>();
+		m_Material = new Dictionary<int, List<OrbitRenderer>>();
 	}
 }

@@ -10,6 +10,7 @@ public class OrbitRenderer : MonoBehaviour {
 	public MeshRenderer		m_MeshRenderer;
 	public Material			m_Material;
 	public bool				m_IgnoreOrderSort	= false;
+	public System.Action	m_DestoryCb	= null;
 	private Stack<int>	m_UnusedOrbitIndices;
 
 	/// <summary>
@@ -31,6 +32,9 @@ public class OrbitRenderer : MonoBehaviour {
 	public void FreeOrbitIndices(int index) {
 		if ((index < m_OrbitObjects.Length) && !m_UnusedOrbitIndices.Contains(index)) {
 			m_UnusedOrbitIndices.Push(index);
+			if (0 == GetOrbitCount()) {
+				Object.Destroy(gameObject);
+			}
 		}
 	}
 
@@ -61,6 +65,15 @@ public class OrbitRenderer : MonoBehaviour {
 		m_UnusedOrbitIndices = new Stack<int>(m_OrbitObjects.Length);
 		for (int i = m_OrbitObjects.Length - 1, i_min = 0; i_min <= i; --i) {
 			m_UnusedOrbitIndices.Push(i);
+		}
+	}
+
+	/// <summary>
+	/// 破棄
+	/// </summary>
+	void OnDestroy() {
+		if (null != m_DestoryCb) {
+			m_DestoryCb();
 		}
 	}
 	
